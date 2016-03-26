@@ -8,7 +8,7 @@ I built this as a side project in January / February 2016, as a practical means 
 
 --- 
 
-3/26/2016 CALL TO ACTION -- Get this trader to profitability.  [A strategy is being fleshed out here](https://github.com/owocki/pytrader/issues/1).
+__3/26/2016__ - My test portfolio was initialized with a 1 BTC deposit, and after 2 months and 23,413 trades,  exited with 0.955 BTC.  The system paid 2.486 BTC in fees to poloniex.  CALL TO ACTION -- Get this trader to profitability.    [A strategy is being fleshed out here](https://github.com/owocki/pytrader/issues/1).
 
 --- 
 
