@@ -1,8 +1,16 @@
+
+
 # pytrader
 
 pytrader is a _cryptocurrency_ trading robot programmed to work on the [poloniex.com cryptocurrency platform.](http://poloniex.com).
 
 I built this as a side project in January / February 2016, as a practical means of getting some experience with machine learning, quantitative finance, and of course hopefully making some profit `;)`.
+
+--- 
+
+3/26/2016 CALL TO ACTION -- Get this trader to profitability.  [A strategy is being fleshed out here](https://github.com/owocki/pytrader/issues/1).
+
+--- 
 
 ## How
 
