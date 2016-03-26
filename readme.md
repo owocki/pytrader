@@ -34,6 +34,10 @@ By testing and tuning various parameters to to the *ClassifierTest*, I was able 
 
 In addition to using sklearn Classifiers, Pybrain Supervised Learning tools were used to predict price movement.  This is represented in the data model as a *PredictionTest*, and the problem space is enumerated in *predict_many_v2.py*.   By testing and tuning various parameters in the pybrain NN,  I was able to consistently predict directional price movements around 55% of the time.
 
+### Database model
+
+<img src='http://bits.owocki.com/373h1z2l2V3x/download.png' />
+
 ## Administration & Optimization
 
 Administration of this tool is primarily done through the django admin.  
