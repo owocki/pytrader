@@ -1,0 +1,15 @@
+first place i'd look at with a trader is 
+* sentiment analysis
+* arbitrage opportunities
+classifier on buy or sell, as opposed to neural network. eventually that gets me to buy/sell/hold.
+    different styles of classifiers, some are good at prettymuch antying you throw at them
+NN is invalid if training / predicting on same data point
+    you can overfit to the data
+    validate on a selection of data that you'll have when im running the trading engine
+    delta between training and validation could be a config parameter (or should i just train on the whole week)
+ask greg for intro to dan / victorops
+
+
+TLDR -- would look at classifier instead of NN
+    classifiers can output confidence intervals
+    

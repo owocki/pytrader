@@ -1,0 +1,7 @@
+db.sqlite3
+pypolo/local_settings.py
+data.json
+db.sqlite3-journal
+.DS_Store
+static/*
+*.pyc

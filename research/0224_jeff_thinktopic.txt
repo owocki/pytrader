@@ -1,0 +1,10 @@
+Hi Kevin, and thanks for the connect Jessica,
+  It's nice to see you are using pybrain.  I helped my friends Tom and Daan in the early phases of design of pybrain when we were in grad school together in Switzerland years ago.  Anyway, I'm interested to hear more about your bot.  Are you trading bitcoin?  Which API are you using?
+
+In terms of the neural network design it will depend a lot on the type of model you are trying to build, the complexity of the data distribution you are trying to model, and the temporal or spatial nature of the data dependencies.  So first, what are the inputs and what are the desired outputs?  What does the training data look like, and do you know if it is actually predictable?  Are you doing three fold cross validation?  That would be vital for anything where you plan on risking your money.  What network configuration is your best performer so far?
+
+Normally I'd say let's meet over a coffee, but I'm out of town until mid-March so for now email or slack will have to suffice.
+
+Regarding Boulder startup week, I'd be happy to give a talk on machine learning.  Depending on the expected audience it could be interesting to give a neural networks from zero to infinity talk to inform people generally what all the recent hype and press is about.  If it's going to be a more technical audience it could be fun to dive into some particular neural models that have had success in areas like language modeling, word embeddings, speech recognition, image recognition, etc., to give a brief survey of the state of the art.  For a more social twist it could be interesting to talk about what areas of automation are likely to displace lots of jobs and create serious unemployment problems in the relatively near term.  Just a couple ideas for now, but there could be many interesting directions to take it.
+
+Cheers,

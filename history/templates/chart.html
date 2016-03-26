@@ -1,0 +1,188 @@
+<head>
+<script src='http://code.jquery.com/jquery-1.12.1.min.js'></script>
+<script src='http://code.highcharts.com/highcharts.js'></script>
+    <!-- code to include the highcharts and jQuery libraries goes here -->
+    <!-- load_charts filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+    {% load chartit %}
+    {{ charts|load_charts:chartnamesstr }}
+
+<style>
+table{
+    width: 100%;
+}
+.title{
+    background-color: #bbb;
+}
+tr.max{
+    font-weight: bold;
+}
+tr.warning{
+    color: red;
+}
+.odd{
+    background-color: #eee;
+}
+.noshow div{
+    display:none;
+}
+.noshow {
+    text-align: center;
+}
+.show span{
+    display:none;
+}
+#toc{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: #dddddd;
+    padding: 15px;
+    width: 140px;
+    z-index: 999;
+    text-align: right;
+}
+#toc ul, #toc li{
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style: none;
+}
+#hide{
+    margin-left: 5px;
+}
+#toc.minimiized{
+    height: 20px;
+    overflow-y: hidden;
+}
+h1.running{
+    color:green;
+}
+h1.not_running{
+    color:red;
+}
+
+</style>
+
+</head>
+<body>
+<h1 class="{% if is_trainer_running %} running {% else %} not_running {% endif %}" id="top"> Trainer {% if is_trainer_running %} running{% else %} not running{% endif %}. Last seen {{trainer_last_seen}}</h1>
+<h2>Data for {{ticker}}: {{getparams|safe}} </h2>
+<select id="symbol">
+    {% for symbol in symbols_that_exist %}
+    <option {% if ticker == symbol %} selected {% else %} {% endif %} >{{symbol}}</option>
+    {% endfor %}
+    <option>-------------------</option>
+    {% for symbol in symbols %}
+    <option>{{symbol}}</option>
+    {% endfor %}
+</select>
+<h3>
+{% for k,m in meta.items %}
+    {{k}}:{{m}} 
+{% endfor %}
+</h3>
+    
+{% for hour_ago in hours_ago %}
+<a href="/admin/nn_charts?{{getparams|safe}}&hours_ago={{hour_ago}}">{{hour_ago}} hours ago</a> | 
+{% endfor %}
+{% for day_ago in days_ago %}
+<a href="/admin/nn_charts?{{getparams|safe}}&days_ago={{day_ago}}">{{day_ago}} days ago</a> | 
+{% endfor %}
+
+<div id="toc">
+    <a href="/admin" style="float:left;">< Back to Admin</a><a href="#" id="hide">x</a>
+    <h5>Table of Contents</h5>
+    <ul>
+        <li><a href="#top">(top) - </a></li>
+        {% for meta in metas %}
+            <li><a href="#{{meta.name}}">{{meta.name}}</a> - </li>
+        {% endfor %}
+        <li><a href="#objs">objs - </a></li>
+    </ul>
+</div>
+
+
+    {% for meta in metas %}
+    <div id="{{meta.name}}" class='{{meta.container_class}}' >
+        <span style="margin: 0px auto;" > <hr> {{meta.name}} chart not shown because only one option <a href="#">override >></a> <hr> </span>
+        <div id='{{meta.class}}' class="container"> Chart will be rendered here </div>
+            {% if meta.options %}
+                <div style="text-align: center;"> Options: 
+                <table>
+                    <tr class="title">
+                        <th>
+                            Option
+                        </th>
+                        <th>
+                            Pct Correct
+                        </th>
+                        <th>
+                            Sample Size
+                        </th>
+                    </tr>
+                {% for option in meta.options %}
+                    <tr class="{% cycle 'odd' 'even' %} {{option.4}} ">
+                        <td>
+                            <a href="/admin/nn_charts?{{getparams|safe}}&{{option.0}}={{option.1}}">{{option.1}}</a>
+                        </td>
+                        <td>
+                            {{option.2}}%
+                        </td>
+                        <td>
+                            {{option.3}}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            {% endif %}
+            <br/>
+            <hr>
+            <br/>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+<table id="objs">
+    <tr class="title">
+        <th>
+            Link
+        </th>
+        <th>
+            Created
+        </th>
+        <th>
+            Accuracy
+        </th>
+    </tr>
+    {% for pt in pts %}
+        <tr class="{% cycle 'odd' 'even' %}">
+        <td>
+            <a href="/admin/history/predictiontest/{{pt.pk}}">PredictionTest #{{pt.pk}}</a>
+        </td>
+        <td>
+            {{pt.created_on}}
+        </td>
+        <td>
+            {{pt.percent_correct}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.noshow span').on('click',function(e){
+            $(this).parents('.noshow').removeClass('noshow').addClass('show');
+            e.preventDefault();
+        });
+        $("#symbol").change(function(){
+            window.location.href="/admin/nn_charts?{{getparams|safe}}&symbol="+$(this).val();
+        });
+        $("#hide").click(function(e){
+            $('#toc').toggleClass('minimiized');
+            e.preventDefault();
+        });
+    });
+
+</script>

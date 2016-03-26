@@ -1,0 +1,2 @@
+cd pytrader
+alias deploy="sh $HOME/pytrader/scripts/deploy.sh"

@@ -1,0 +1,102 @@
+<head>
+<script src='http://code.jquery.com/jquery-1.12.1.min.js'></script>
+<script src='http://code.highcharts.com/highcharts.js'></script>
+    <!-- code to include the highcharts and jQuery libraries goes here -->
+    <!-- load_charts filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+    {% load chartit %}
+    {{ charts|load_charts:chartnamesstr }}
+
+<style>
+table{
+    width: 100%;
+}
+.title{
+    background-color: #bbb;
+}
+.odd{
+    background-color: #eee;
+}
+td{
+    font-size: 18px;
+    text-align: center;
+    padding: 10px;
+}
+.loss{
+    color: red;
+}
+.profit{
+    color: green;
+}
+h1.running{
+    color:green;
+}
+h1.not_running{
+    color:red;
+}
+#toc{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: #dddddd;
+    padding: 15px;
+    width: 180px;
+    z-index: 999;
+    text-align: right;
+}
+#toc ul, #toc li{
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style: none;
+}
+#hide{
+    margin-left: 5px;
+}
+#toc.minimiized{
+    height: 20px;
+    overflow-y: hidden;
+}
+</style>
+
+</head>
+<body id="top">
+<div id="toc">
+    <a href="/admin" style="float:left;">< Back to Admin</a><a href="#" id="hide">x</a>
+    <h5>Table of Contents</h5>
+    <ul>
+        <li><a href="#top">(top)</a> - </li>
+        {% for name in chartnames %}
+            <li><a href="#{{name}}">{{name}}</a> - </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<br>
+{% for hour_ago in hours_ago %}
+<a href="/admin/optimize?{{getparams|safe}}&hours_ago={{hour_ago}}">{{hour_ago}} hours ago</a> | 
+{% endfor %}
+{% for day_ago in days_ago %}
+<a href="/admin/optimize?{{getparams|safe}}&days_ago={{day_ago}}">{{day_ago}} days ago</a> | 
+{% endfor %}
+
+
+<h1 class="{% if is_trader_running %} running {% else %} not_running {% endif %}">Trader is {% if is_trader_running %} running {% else %} NOT RUNNING {% endif %} Last seen {{trader_last_seen}} </h1>
+{% for name in chartnames %}
+<div id='{{name}}' class="container"> Chart will be rendered here </div>
+{% endfor %}
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#denom").change(function(){
+            window.location.href="/admin/optimize?{{getparams|safe}}&denom="+$(this).val();
+        });
+        $("#hide").click(function(e){
+            $('#toc').toggleClass('minimiized');
+            e.preventDefault();
+        });
+    });
+
+</script>

@@ -1,0 +1,9 @@
+django==1.8.2
+scipy
+matplotlib
+pybrain
+psycopg2
+django_chartit
+simplejson
+Cython
+sklearn
