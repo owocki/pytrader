@@ -2,9 +2,16 @@
 
 # pytrader
 
-pytrader is a _cryptocurrency_ trading robot programmed to work on the [poloniex.com cryptocurrency platform.](http://poloniex.com).
+## What
 
-I built this as a side project in January / February 2016, as a practical means of getting some experience with machine learning, quantitative finance, and of course hopefully making some profit `;)`.
+pytrader is a _cryptocurrency trading robot_ that uses _machine learning_ to predict _predice movements_ at _confidence intervals_, and sometimes execute _trades_.  It is programmed to work on the [poloniex.com cryptocurrency platform.](http://poloniex.com).
+
+###### Prettymuch, this:
+
+> <img src='http://f.cl.ly/items/2m0p373L030F2y0U0I3p/9d7D_f-maxage-0.gif' />
+
+
+I (<a href="github.com/owocki">@owocki</a>) built this as a side project in January / February 2016, as a practical means of getting some experience with machine learning, quantitative finance, and of course hopefully making some profit `;)`.
 
 --- 
 
@@ -118,7 +125,7 @@ Although I am able to predict price movements with some degree of accuracy that 
 
 My test portfolio was initialized with a 1 BTC deposit, and after 2 months and 23,413 trades,  exited with 0.955 BTC.  The system paid 2.486 BTC in fees to poloniex.  
 
-The code is not perfect.  This was a pre-product/market-fit side project. Please feel free to open an _Issue_ if you do not understand something.
+The code is not perfect.  This was a pre-product/market-fit side project. Please feel free to open an _Issue_ if you do not understand something.  CALL TO ACTION -- Get this trader to profitability.    [A strategy is being fleshed out here](https://github.com/owocki/pytrader/issues/1).
 
 ## Deployment
 
