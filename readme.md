@@ -4,7 +4,7 @@
 
 ## What
 
-pytrader is a _cryptocurrency trading robot_ that uses _machine learning_ to predict _predice movements_ at _confidence intervals_, and sometimes execute _trades_.  It is programmed to work on the [poloniex.com cryptocurrency platform.](http://poloniex.com).
+pytrader is a _cryptocurrency trading robot_ that uses _machine learning_ to predict _price movements_ at _confidence intervals_, and sometimes execute _trades_.  It is programmed to work on the [poloniex.com cryptocurrency platform](http://poloniex.com).
 
 ###### Prettymuch, this:
 
