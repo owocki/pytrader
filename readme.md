@@ -17,6 +17,8 @@ I (<a href="github.com/owocki">@owocki</a>) built this as a side project in Janu
 
 __3/26/2016__ - My test portfolio was initialized with a 1 BTC deposit, and after 2 months and 23,413 trades,  exited with 0.955 BTC.  The system paid 2.486 BTC in fees to poloniex.  CALL TO ACTION -- Get this trader to profitability.    [A strategy is being fleshed out here](https://github.com/owocki/pytrader/issues/1).
 
+__3/27/2016__ - Sign up for the pytrader slack channel [here](https://github.com/owocki/pytrader/issues/23).
+
 --- 
 
 ## How
