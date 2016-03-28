@@ -134,10 +134,13 @@ After you've cloned the repo, you'll want to create a *local_settings.py* file w
 ```
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MAKE_TRADES=False
+MAKE_TRADES = False
 
-API_KEY="<POLO_API_KEY>"
-API_SECRET="<POLO_SECRET>"
+API_KEY = "<POLO_API_KEY>"
+API_SECRET = "<POLO_SECRET>"
+
+# Additional Django Apps you with to only be enabled in debug mode.
+DEBUG_APPS = []
 
 ```
 
@@ -147,8 +150,47 @@ install your requirements
 pip install -r requirements.txt
 ```
 
-set up your database..
+set up your database.. here  are some sample DB configs (pleace in `local_settings.py`):
+
+
+```
+#postgres
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'trader',                      # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'trader',
+        'PASSWORD': '<pw>',
+        'HOST': '127.0.0.1',  # '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',  # '5124',                      # Set to empty string for default.
+        'ATOMIC_REQUESTS': True,
+    },
+}
+
+```
+
+
+```
+#sqllite
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+_DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+```
+
+run migration commands
+
 ``` 
+./manage.py syncdb
 ./manage.py migrate
 ```
 
