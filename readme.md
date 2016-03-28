@@ -199,7 +199,44 @@ and then install the system crontab
 crontab scripts/crontab.txt
 ```
 
-... and your system is installed.  Once enough `Price` objects are stored in the database, you'll be able to begin training your NN / classifiers. (see _Administration_ above ^^)
+... and your system is installed.  
+
+
+Once enough `Price` objects are stored in the database, you'll be able to begin training your NN / classifiers. ([see example commands below or download a seed database of prices here](https://github.com/owocki/pytrader/issues/2)).
+
+
+## Important Administration Commands
+
+### Neural Network Backtester
+
+```
+./manage.py predict_many_v2
+```
+
+### Classifier Backtester
+
+```
+./manage.py predict_many_sk
+```
+
+### Trade Bot
+
+```
+./manage.py trade
+```
+
+## Other Administration Commands
+
+These should ideally be scheduled via crontab:
+
+```
+./manage.py pull_deposits #checks API for any new deposits
+./manage.py pull_balance #records your balance in USD, BTC, native coin.
+./manage.py scheduled_trades # executes any _scheduled_ trades
+./manage.py pull_prices #pulls price data from exchanges
+```
+
+
 
 ## Roadmap
 
