@@ -202,7 +202,7 @@ crontab scripts/crontab.txt
 ... and your system is installed.  
 
 
-Once enough `Price` objects are stored in the database, you'll be able to begin training your NN / classifiers. ([see example commands below or download a seed database of prices here](https://github.com/owocki/pytrader/issues/2)).
+Once enough `Price` objects are stored in the database, you'll be able to begin training your NN / classifiers. (see example command `./manage.py pull_prices` below or [download a seed database of prices here](https://github.com/owocki/pytrader/issues/2)).
 
 
 ## Important Administration Commands
@@ -236,78 +236,6 @@ These should ideally be scheduled via crontab:
 ./manage.py pull_prices #pulls price data from exchanges
 ```
 
-
-
-## Roadmap
-
-### r&d
-
-* [ ] look into three fold cross validation
-* [ ] import sentiment analysis
-* [ ] look into arbitrage opportunities between exchanges
-* [ ] look into classifier on buy or sell, as opposed to neural network. eventually that gets me to buy/sell/hold.
-bredth
-* [ ] automate the process of selecting strategies for a given market.  
-* [ ] expand trader into other markets w. high volume
-* [ ] research linear regression -- Heimir says "Your problem sounds like a classical Linear Regression problem"
-* [ ] map temporal or spatial nature of the data dependencies (based upon jeff's email) ?
-* [ ] test adding bid/ask spread data to input
-* [ ] test adding volume data to input
-* [ ] test adding RSI / MACD, other indicators to data
-
-### operational
-
-* [ ] make trade bot consider balances (and portfolio distribution) before deciding trade amount
-* [X] manually optimmize which NNs parameters are at play
-* [X] manually optimize "Algo vs Reality" chart (and subsequent trade decision maker in trade.py)
-* [ ] optimize trade amounts
-
-### bugs
-* [ ] why doesnt NN recommend buy nearly as much as sell?
-    - maybe because NN only contains last 1000 data points (1/3 day).  if only selling happened during taht time, nn will bias towards selling.  duh!
-    - notes 2/27 seems like its only recommending buying now.  seems to change its mind every 12 hours http://bits.owocki.com/0w121V3C3j1j/Image%202016-02-27%20at%2010.28.21%20AM.png
-* [ ] why are buys 10x the size of sells?
-    - debug logging added to determien that
-* [ ] can't dump backup.  this severly impacts my ability to local dev
-
-### minor bugs
-* [X] spotted once: `django.db.utils.DatabaseError: SSL SYSCALL error: EOF detected` (KO: the system was running out of memory.  solved by adding swap space)
-
-###today 2/27
-
-* [X] What would a major pivot to classifiers mean practically?
-    1. [X] enumerate problem space to find successful classifiers
-    2. [X] enumerate settings of each classifier type to find even *more* successful ones
-    3. [X] abstract parts of NN enumeration into shared mixin or super class?
-    4. [X] abstract parts of trading signals into shared mixin or super class?
-    5. profit
-* [X] fix restore of db
-* [X] what if trader only acted upon a timeframe it was traded upon.
-    collapse trade timerange into 'granularity'.
-    perform action then reverse action granularity minutes later
-    probably would have to raise the bar for profit targets so could beat fees
-
-### today march 1
-
-* [X] refactor trading script to take either a NN or classifier
-    * perform action then reverse action granularity minutes later
-    * [X] trade both BTC_ETH and USDT_BTC
-    * [X] each trade script acts on ONE nn or classifier, not consensus of several
-
-###today march 2
-
-* [ ] `/profit` analytics tools can analyze > 1 coin
-* [ ] `/optimize` analytics tools can analyze > 1 coin
-* [ ] `/optimize` analytics tools can classifier performance
-* [X] can i connect a trade back to a classifier?  can i connect a trade to it's profit/loss?
-    * maybe if i schedule a job (granularity) minutes out, i can wrap up / whether this trade was a profit or loss.
-
-### march 3 
-* [X] perform action then reverse action granularity minutes later
-* [x] can i connect a trade back to a classifier?  
-* [X] can i connect a trade to it's profit/loss?
-    * [X] maybe if i schedule a job (granularity) minutes out
-    * [X] record whether original trade was a profit or loss.
 
 
 <!-- Google Analytics --> 
