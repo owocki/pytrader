@@ -122,6 +122,6 @@ STATICFILES_DIRS = [
 try:
     from pypolo.local_settings import *  # NOQA
     INSTALLED_APPS += DEBUG_APPS
-except ImportError as exp:
+except (ImportError, NameError) as exp:
     pass
 

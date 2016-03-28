@@ -134,10 +134,13 @@ After you've cloned the repo, you'll want to create a *local_settings.py* file w
 ```
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MAKE_TRADES=False
+MAKE_TRADES = False
 
-API_KEY="<POLO_API_KEY>"
-API_SECRET="<POLO_SECRET>"
+API_KEY = "<POLO_API_KEY>"
+API_SECRET = "<POLO_SECRET>"
+
+# Additional Django Apps you with to only be enabled in debug mode.
+DEBUG_APPS = []
 
 ```
 
