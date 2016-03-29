@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 import datetime
 from history.models import PredictionTest, TradeRecommendation, get_time
+from django.conf import settings
 
 class Command(BaseCommand):
 
@@ -8,11 +9,11 @@ class Command(BaseCommand):
 
     def alert_email(self,fail_message):
         import smtplib
-        sender = 'ksowocki@gmail.com'
-        receivers = ['ksowocki@gmail.com']
+        sender = [settings.ALERT_EMAIL]
+        receivers = [settings.ALERT_EMAIL]
 
-        message = """From: Kevin Owocki <ksowocki@gmail.com>
-        To:  Kevin Owocki <ksowocki@gmail.com>
+        message = """From: """ + setings.ALERT_EMAIL """ +
+        To:  """ + setings.ALERT_EMAIL """ +
         Subject: Fail Case - """ + fail_message + """
 
         """ + fail_message + """
@@ -20,7 +21,7 @@ class Command(BaseCommand):
 
         try:
            smtpObj = smtplib.SMTP('smtp.sendgrid.net',587)
-           smtpObj.login('pytrader1','duw70s9pe9nG5BgiNUr')
+           smtpObj.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
            smtpObj.sendmail(sender, receivers, message)   
            smtpObj.quit()      
            print "Successfully sent email"

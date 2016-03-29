@@ -142,6 +142,11 @@ API_SECRET = "<POLO_SECRET>"
 # Additional Django Apps you with to only be enabled in debug mode.
 DEBUG_APPS = []
 
+# the following 3 lines are needed only if you want to be alerted of fail cases (when the trader is not running, etc)
+ALERT_EMAIL = '<your_email>'
+SMTP_USERNAME = '<smtp_user>'
+SMTP_PASSWORD = '<smtp_pass>'
+
 ```
 
 install your requirements
