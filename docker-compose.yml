@@ -1,0 +1,24 @@
+version: '2'
+services:
+  db:
+    image: postgres
+    env_file: docker/env
+    volumes: 
+      - 'db-data:/var/lib/postgresql/data'
+  web:
+    image: pytrader-dev
+    build: ./
+    command: /root/pytrader/docker/wait-and-run.sh db 
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file: docker/env
+    environment:
+      POLONIEX_API_KEY:
+      POLONIEX_API_SECRET:
+    volumes:
+      - './:/root/pytrader'
+volumes:
+  db-data:
+        

@@ -224,8 +224,18 @@ Once enough `Price` objects are stored in the database, you'll be able to begin 
 
 See the next document, [How to trade with pytrader](https://github.com/owocki/pytrader/blob/master/howto_trade.md).
 
+## Docker dev setup
 
-<!-- Google Analytics --> 
+Work with docker 1.10.3 and docker-compose 1.6.2
+
+1. Export your POLONIEX_API_KEY and POLONIEX_API_SECRET env vars.
+2. Build (compiling stuff for scipy and numpy takes time): `docker-compose build`
+3. Run: `docker-compose up`
+4. Visit http://localhost:8000/admin and log in as `trader:trader`
+5. Get shell: `docker exec -it pytrader_web_1 /bin/bash`
+
+
+<!-- Google Analytics -->
 <img src='https://ga-beacon.appspot.com/UA-1014419-15/owocki/pytrader' style='width:1px; height:1px;' >
 
 

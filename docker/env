@@ -1,0 +1,4 @@
+POSTGRES_USER=trader
+POSTGRES_PASSWORD=trader
+POSTGRES_DB=trader
+
