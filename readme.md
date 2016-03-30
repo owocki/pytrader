@@ -144,6 +144,9 @@ API_SECRET = "<POLO_SECRET>"
 # Additional Django Apps you with to only be enabled in debug mode.
 DEBUG_APPS = []
 
+# this defines whether trade.py will actually submit trades to the poloniex API.  setting to `False` is useful for testing
+MAKE_TRADES = True
+
 # the following 3 lines are needed only if you want to be alerted of fail cases (when the trader is not running, etc)
 ALERT_EMAIL = '<your_email>'
 SMTP_USERNAME = '<smtp_user>'

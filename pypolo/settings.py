@@ -26,7 +26,7 @@ SECRET_KEY = '))iy*8&jyl3s6m58g(z=6xo5yq^hl^-ppk$v-h-pd#@fhn&k@0'
 DEBUG = True
 MAKE_TRADES = True
 
-ALLOWED_HOSTS = [ 'trader.owocki.com', '45.55.42.224' ]
+ALLOWED_HOSTS = ['trader.owocki.com', '45.55.42.224']
 
 
 # Application definition
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'pypolo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ 'history/templates/',],
+        'DIRS': ['history/templates/', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,9 +72,7 @@ TEMPLATES = [
 ]
 
 
-
 WSGI_APPLICATION = 'pypolo.wsgi.application'
-
 
 
 # Password validation
@@ -124,4 +122,3 @@ try:
     INSTALLED_APPS += DEBUG_APPS
 except (ImportError, NameError) as exp:
     pass
-
