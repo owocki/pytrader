@@ -4,3 +4,4 @@ data.json
 db.sqlite3-journal
 .DS_Store
 *.pyc
+static/*
