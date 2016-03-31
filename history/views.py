@@ -292,7 +292,7 @@ def get_directional_change_chart(bs,denom,symbol,start_time):
         pcs = PerformanceComp.objects.filter(symbol=symbol,created_on__gte=start_time,price_timerange_start__isnull=False).order_by('id')
     else:
         pcs = PerformanceComp.objects.filter(symbol=symbol,created_on__gte=start_time,price_timerange_start__isnull=False).order_by('id')
-    pct_dir_same = int(100.0 * sum([pc.directionally_same_int for pc in pcs]) / pcs.count())
+    pct_dir_same = int(100.0 * sum([pc.directionally_same_int for pc in pcs]) / pcs.count()) if pcs.count() != 0 else 0
     ds = PivotDataPool(
           series= [
            {'options':{
