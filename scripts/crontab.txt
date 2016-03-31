@@ -8,5 +8,5 @@
 */5 * * * * cd pytrader; ./manage.py pull_balance
 */5 * * * * cd pytrader; ./manage.py scheduled_trades
 1,11,21,31,41,51 * * * * cd pytrader; ./manage.py compare_perf #TODO: change me when granularity changes
-1 * * * * cd pytrader; sh scripts/make_backup.sh
+1 1 * * * cd pytrader; sh scripts/make_backup.sh
 
