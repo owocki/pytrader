@@ -43,7 +43,7 @@ class Command(BaseCommand):
                                                         timedelta_back_in_granularity_increments=timedelta_back_in_granularity_increments)
                                     ct.get_classifier()
                                     ct.save()
-                                    print_and_log("(ct) {} {} {} {} {} {} returned {}% corrrect ".format(name, symbol, datasetinputs, granularity, minutes_back, timedelta_back_in_granularity_increments, ct.percent_correct))
+                                    print_and_log("(ct) {} {} {} {} {} {} returned {}% corrrect ".format(name, ticker, datasetinputs, granularity, min_back, timedelta_back_in_granularity_increments, ct.percent_correct))
                                     if ct.percent_correct > 60 or not settings.MAKE_TRADES:  # hack to only graph successful charts, until we figure out this warning http://bits.owocki.com/010Z1M3d170p/Image%202016-03-02%20at%208.30.17%20AM.png
                                         ct.graph(ct.graph_url())
                                 except Exception as e:
