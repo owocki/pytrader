@@ -600,7 +600,7 @@ def profit_view(request):
 
     view_data = sorted(view_data, reverse=True, key=lambda vd: vd['date']) 
     last_day_profit = view_data[0]['diff'] if len(view_data) > 0 else 0
-    max_date = view_data[0]['date']
+    max_date = view_data[0]['date'] if len(view_data) > 0 else 0
     is_in_profit = last_day_profit > 0
 
     return render_to_response('profit.html',{ 'data' : view_data,
