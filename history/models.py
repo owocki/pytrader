@@ -34,7 +34,7 @@ def get_time():
     return localtime(timezone.now())    
 
 class TimeStampedModel(models.Model):
-    created_on = models.DateTimeField(null=False, default=get_time)
+    created_on = models.DateTimeField(null=False, default=get_time, db_index=True)
     modified_on = models.DateTimeField(null=False, default=get_time)
 
     def get_readonly_fields(self, request, obj=None):
@@ -186,7 +186,7 @@ class Trade(TimeStampedModel):
 
 
 class Price(TimeStampedModel):
-    symbol = models.CharField(max_length=30)
+    symbol = models.CharField(max_length=30,db_index=True)
     price = models.FloatField()
     volume = models.FloatField(null=True)
     lowestask = models.FloatField(null=True)
@@ -202,7 +202,7 @@ class Balance(TimeStampedModel):
     exchange_to_usd_rate = models.FloatField(null=True)
     deposited_amount_usd = models.FloatField(default=0.00)
     deposited_amount_btc = models.FloatField(default=0.00)
-    date_str = models.CharField(max_length=20,default='0')
+    date_str = models.CharField(max_length=20,default='0',db_index=True)
 
 class PerformanceComp(TimeStampedModel):
     symbol = models.CharField(max_length=30)
@@ -217,8 +217,8 @@ class PerformanceComp(TimeStampedModel):
     pct_hold = models.FloatField(default=0)
     pct_sell = models.FloatField(default=0)
     rec_count = models.IntegerField(default=0)
-    price_timerange_start = models.DateTimeField(null=True, default=None)
-    price_timerange_end = models.DateTimeField(null=True, default=None)
+    price_timerange_start = models.DateTimeField(null=True, default=None,db_index=True)
+    price_timerange_end = models.DateTimeField(null=True, default=None,db_index=True)
     tr_timerange_start = models.DateTimeField(null=True, default=None)
     tr_timerange_end = models.DateTimeField(null=True, default=None)
     
@@ -232,10 +232,10 @@ class TradeRecommendation(TimeStampedModel):
     confidence = models.FloatField()
     created_on_str = models.CharField(max_length=30,default='')
     net_amount = models.FloatField(default=0)
-    trade = models.ForeignKey('Trade',null=True)
+    trade = models.ForeignKey('Trade',null=True,db_index=True)
 
 class ClassifierTest(AbstractedTesterClass):
-    type = models.CharField(max_length=30,default='mock')
+    type = models.CharField(max_length=30,default='mock',db_index=True)
     symbol = models.CharField(max_length=30)
     name = models.CharField(max_length=100,default='')
     datasetinputs = models.IntegerField()
@@ -422,7 +422,7 @@ class ClassifierTest(AbstractedTesterClass):
 
 
 class PredictionTest(AbstractedTesterClass):
-    type = models.CharField(max_length=30,default='mock')
+    type = models.CharField(max_length=30,default='mock',db_index=True)
     symbol = models.CharField(max_length=30)
     percent_correct = models.FloatField(null=True)
     avg_diff = models.FloatField(null=True)
