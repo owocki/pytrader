@@ -344,6 +344,7 @@ class ClassifierTest(AbstractedTesterClass):
                     actual = ds[1][i]
                     sample = StandardScaler().fit_transform(sample)
                     prediction = clf.predict(sample)
+                    self.prediction = prediction
                     stats['p'][prediction[0]] += 1
                     stats['a'][actual] += 1
                     stats['r' if actual == prediction[0] else 'w'] =stats['r' if actual == prediction[0] else 'w'] + 1
@@ -395,6 +396,7 @@ class ClassifierTest(AbstractedTesterClass):
         ax.set_xticks(())
         ax.set_yticks(())
 
+        self.Z = self.clf.predict(np.c_[self.xx.ravel(), self.yy.ravel()])
         self.Z = self.Z.reshape(self.xx.shape)
         ax.contourf(self.xx, self.yy, self.Z, cmap=cm, alpha=.8)
 
