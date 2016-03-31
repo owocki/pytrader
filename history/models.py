@@ -236,7 +236,7 @@ class TradeRecommendation(TimeStampedModel):
 
 class ClassifierTest(AbstractedTesterClass):
     type = models.CharField(max_length=30,default='mock',db_index=True)
-    symbol = models.CharField(max_length=30)
+    symbol = models.CharField(max_length=30,db_index=True)
     name = models.CharField(max_length=100,default='')
     datasetinputs = models.IntegerField()
     granularity = models.IntegerField()
@@ -423,7 +423,7 @@ class ClassifierTest(AbstractedTesterClass):
 
 class PredictionTest(AbstractedTesterClass):
     type = models.CharField(max_length=30,default='mock',db_index=True)
-    symbol = models.CharField(max_length=30)
+    symbol = models.CharField(max_length=30,db_index=True)
     percent_correct = models.FloatField(null=True)
     avg_diff = models.FloatField(null=True)
     datasetinputs = models.IntegerField()
