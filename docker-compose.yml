@@ -6,7 +6,7 @@ services:
     volumes: 
       - 'db-data:/var/lib/postgresql/data'
   web:
-    image: pytrader-dev
+    image: t0mk/pytrader-dev
     build: ./
     command: /root/pytrader/docker/wait-and-run.sh db 
     ports:
