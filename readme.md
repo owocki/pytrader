@@ -229,11 +229,21 @@ See the next document, [How to trade with pytrader](https://github.com/owocki/py
 Work with docker 1.10.3 and docker-compose 1.6.2
 
 1. Export your POLONIEX_API_KEY and POLONIEX_API_SECRET env vars.
-2. Build (compiling stuff for scipy and numpy takes time): `docker-compose build`
+2. Build (compiling stuff for scipy and numpy takes time): `docker-compose build` or pull the images from Docker Hub: `docker-compose pull`
 3. `cd pypolo; cp local_settings.py.example local_settings.py`
-3. Run: `docker-compose up`
-4. Visit http://localhost:8000/admin and log in as `trader:trader`
+4. Run the containers: `docker-compose up`
 5. Get shell: `docker exec -it pytrader_web_1 /bin/bash`
+6. Place sql seed in this repo dir as `prices.psql`
+7. in Django container 
+
+```
+cd /root/pytrader
+export PGPASSWORD=$POSTGRES_PASSWORD
+psql -h db -U trader trader < prices.psql
+```
+
+8. restart setup: (in the host): `docker-compose kill && docker-compose up -d`
+9. Visit http://localhost:8000/admin and log in as `trader:trader`
 
 
 <!-- Google Analytics -->
