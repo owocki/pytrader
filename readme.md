@@ -230,6 +230,7 @@ Work with docker 1.10.3 and docker-compose 1.6.2
 
 1. Export your POLONIEX_API_KEY and POLONIEX_API_SECRET env vars.
 2. Build (compiling stuff for scipy and numpy takes time): `docker-compose build`
+3. `cd pypolo; cp local_settings.py.example local_settings.py`
 3. Run: `docker-compose up`
 4. Visit http://localhost:8000/admin and log in as `trader:trader`
 5. Get shell: `docker exec -it pytrader_web_1 /bin/bash`
