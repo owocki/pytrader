@@ -131,7 +131,7 @@ The code is not perfect.  This was a pre-product/market-fit side project. Please
 
 ## Deployment
 
-After you've cloned the repo, you'll want to create a *local_settings.py* file with the following information in it:
+After you've cloned the repo, you'll want to create a *pypolo/local_settings.py* file with the following information in it:
 
 ```
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -160,7 +160,7 @@ install your requirements
 pip install -r requirements.txt
 ```
 
-set up your database.. here  are some sample DB configs (pleace in `local_settings.py`):
+set up your database.. here  are some sample DB configs (pleace in `pypolo/local_settings.py`):
 
 
 ```
