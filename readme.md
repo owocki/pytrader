@@ -134,9 +134,9 @@ The code is not perfect.  This was a pre-product/market-fit side project. Please
 After you've cloned the repo, you'll want to create a *pypolo/local_settings.py* file with the following information in it:
 
 ```
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import os
 
-MAKE_TRADES = False
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 API_KEY = "<POLO_API_KEY>"
 API_SECRET = "<POLO_SECRET>"
@@ -152,6 +152,7 @@ ALERT_EMAIL = '<your_email>'
 SMTP_USERNAME = '<smtp_user>'
 SMTP_PASSWORD = '<smtp_pass>'
 
+LOG_FILE = '/var/log/django.log'
 ```
 
 install your requirements

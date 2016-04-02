@@ -1,9 +1,10 @@
 import time
 import datetime
+from django.conf import settings
 
 
 def print_and_log(str):
-    with open("/var/log/django.log", "a") as myfile:
+    with open(settings.LOG_FILE, "a") as myfile:
         myfile.write(str+"\n")
     print(str)    
 

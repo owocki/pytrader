@@ -116,9 +116,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+# logfile
+LOG_FILE = "/var/log/django.log"
+
 # Include local settings overrides
 try:
     from pypolo.local_settings import *  # NOQA
     INSTALLED_APPS += DEBUG_APPS
 except (ImportError, NameError) as exp:
-    pass
+    print 'Failed to load pypolo/local_settings.py because: %s' % exp
