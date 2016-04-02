@@ -136,8 +136,6 @@ After you've cloned the repo, you'll want to create a *pypolo/local_settings.py*
 ```
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MAKE_TRADES = False
-
 API_KEY = "<POLO_API_KEY>"
 API_SECRET = "<POLO_SECRET>"
 
