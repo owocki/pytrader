@@ -2,6 +2,29 @@
 
 This document is intended for those who have [successfully deployed the repository onto their own server](https://github.com/owocki/pytrader#deployment), and would like to understand how to optimize towards profit.
 
+## Poloniex Setup
+
+To setup your poloniex account
+
+1. [Sign up](https://www.poloniex.com/signup)
+2. Go to `Balances > Deposits & Withdrawals`
+3. Scroll to `[BTC] Bitcoin`
+4. Get your deposit address.
+5. Send BTC to your deposit address. 
+    * Note: You will need a way to get BTC.  I use [Coinbase](coinbase.com), but YMMV.
+6. Wait until the transaction is confirmed.
+
+To use your poloniex account with pytrader.
+
+1. Navigate to `[wrench] > API Keys` [{screenshot}](http://bits.owocki.com/0D472H0O3108/Image%202016-04-03%20at%201.31.13%20PM.png)
+1. Generate an API key that has "enable trading" set to true.
+2. Add your APIKey / Secret to your `pypolo/local_settings.py` file:
+
+```
+API_KEY = "<POLO_API_KEY>"
+API_SECRET = "<POLO_SECRET>"
+```
+
 ## Concepts: Models
 
 Here is the database model of the repository:
