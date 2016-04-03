@@ -5,6 +5,25 @@ from history.tools import print_and_log
 from multiprocessing import Pool
 
 
+def do_classifier_test(ticker, hidden_layers, min_back, epochs, granularity, datasetinputs,
+                       learningrate, bias, momentum, recurrent, weightdecay,
+                       timedelta_back_in_granularity_increments):
+    try:
+        predict_v2(ticker,
+                   hidden_layers=hidden_layers,
+                   NUM_MINUTES_BACK=min_back,
+                   NUM_EPOCHS=epochs,
+                   granularity_minutes=granularity,
+                   datasetinputs=datasetinputs,
+                   learningrate=learningrate,
+                   bias=bias,
+                   momentum=momentum,
+                   recurrent=recurrent,
+                   weightdecay=weightdecay,
+                   timedelta_back_in_granularity_increments=timedelta_back_in_granularity_increments)
+    except Exception as e:
+        print_and_log("(p)" + str(e))
+
 class Command(BaseCommand):
 
     help = 'tests various settings that could make the NN more accurate'
@@ -69,7 +88,7 @@ class Command(BaseCommand):
                                                 for recurrent in recurrent_options:
                                                     for timedelta_back_in_granularity_increments in \
                                                             timedelta_back_in_granularity_increments_options:
-                                                        pool.apply_async(self._do_classifier_test, args=(
+                                                        pool.apply_async(do_classifier_test, args=(
                                                             ticker, hidden_layers, min_back, epochs, granularity,
                                                             datasetinputs,
                                                             learningrate, bias, momentum, recurrent, weightdecay,
@@ -79,23 +98,3 @@ class Command(BaseCommand):
         pool.close()
         pool.join()
         print("V2 Run Complete")
-
-    @staticmethod
-    def _do_classifier_test(ticker, hidden_layers, min_back, epochs, granularity, datasetinputs,
-                            learningrate, bias, momentum, recurrent, weightdecay,
-                            timedelta_back_in_granularity_increments):
-        try:
-            predict_v2(ticker,
-                       hidden_layers=hidden_layers,
-                       NUM_MINUTES_BACK=min_back,
-                       NUM_EPOCHS=epochs,
-                       granularity_minutes=granularity,
-                       datasetinputs=datasetinputs,
-                       learningrate=learningrate,
-                       bias=bias,
-                       momentum=momentum,
-                       recurrent=recurrent,
-                       weightdecay=weightdecay,
-                       timedelta_back_in_granularity_increments=timedelta_back_in_granularity_increments)
-        except Exception as e:
-            print_and_log("(p)" + str(e))
