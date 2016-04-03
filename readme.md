@@ -155,7 +155,7 @@ SMTP_PASSWORD = '<smtp_pass>'
 LOG_FILE = '/var/log/django.log'
 
 # Configuration of the number of threads to be used for predictions - Set to CPU cores + 1 if dedicated machine
-MAX_THREADS = 5
+NUM_THREADS = 5
 ```
 
 install your requirements
