@@ -192,7 +192,7 @@ Right now trades will be closed after `granularity` minutes.
 ./manage.py trade
 ```
 
-## Other Administration Commands
+### Other Administration Commands
 
 These should ideally be scheduled via crontab:
 
