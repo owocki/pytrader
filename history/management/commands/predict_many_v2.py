@@ -24,6 +24,7 @@ def do_classifier_test(ticker, hidden_layers, min_back, epochs, granularity, dat
     except Exception as e:
         print_and_log("(p)" + str(e))
 
+
 class Command(BaseCommand):
 
     help = 'tests various settings that could make the NN more accurate'
@@ -74,7 +75,7 @@ class Command(BaseCommand):
 
         pool = Pool(settings.NUM_THREADS)
 
-        print("Starting V2 Run")
+        print("Starting V2 run")
         for ticker in ticker_options:
             for hidden_layers in hidden_layer_options:
                 for min_back in min_back_options:
@@ -97,4 +98,4 @@ class Command(BaseCommand):
         print("All V2 jobs queued")
         pool.close()
         pool.join()
-        print("V2 Run Complete")
+        print("V2 run complete")

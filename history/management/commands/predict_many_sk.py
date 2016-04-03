@@ -66,7 +66,7 @@ class Command(BaseCommand):
 
         pool = Pool(settings.NUM_THREADS)
 
-        print("Starting SK Run")
+        print("Starting SK run")
         for ticker in ticker_options:
             for min_back in min_back_options:
                 for granularity in granularity_options:
@@ -82,8 +82,9 @@ class Command(BaseCommand):
                                     min_back,
                                     timedelta_back_in_granularity_increments
                                 ), callback=self._log_results)
-        print("All SK Jobs queues")
+        print("All SK jobs queued")
         pool.close()
         pool.join()
-        print("SK Run Complete")
-        print(self.result_list)
+        print("SK run complete")
+        for result in self.result_list:
+            print(result)

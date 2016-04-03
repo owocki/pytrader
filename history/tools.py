@@ -3,10 +3,10 @@ import datetime
 from django.conf import settings
 
 
-def print_and_log(str):
+def print_and_log(log_string):
     with open(settings.LOG_FILE, "a") as myfile:
-        myfile.write(str+"\n")
-    print(str)    
+        myfile.write(log_string + "\n")
+    print(log_string)
 
 def get_utc_unixtime():
     import time
