@@ -2,8 +2,10 @@ db.sqlite3
 pypolo/local_settings.py
 data.json
 db.sqlite3-journal
+docker/env
+docker-compose.yml
+static/*
 .DS_Store
 *.pyc
-static/*
 *.log
 *.swp
