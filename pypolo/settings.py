@@ -119,6 +119,9 @@ STATICFILES_DIRS = [
 # logfile
 LOG_FILE = "/var/log/django.log"
 
+# Default number of threads for workers
+NUM_THREADS = 1
+
 # Include local settings overrides
 try:
     from pypolo.local_settings import *  # NOQA
