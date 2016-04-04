@@ -231,7 +231,7 @@ Work with docker 1.10.3 and docker-compose 1.6.2
 - initalize your environment:
 
 ```
-cp docker-compsoe.yml.example docker-compose.yml
+cp docker-compose.yml.example docker-compose.yml
 cp docker/env.example docker/env
 cp pypolo/local_settings.py.example pypolo/local_settings.py`
 ```
