@@ -5,7 +5,7 @@ from history.tools import print_and_log
 from multiprocessing import Pool
 
 
-def do_classifier_test(ticker, hidden_layers, min_back, epochs, granularity, datasetinputs,
+def do_prediction_test(ticker, hidden_layers, min_back, epochs, granularity, datasetinputs,
                        learningrate, bias, momentum, recurrent, weightdecay,
                        timedelta_back_in_granularity_increments):
     try:
@@ -89,7 +89,7 @@ class Command(BaseCommand):
                                                 for recurrent in recurrent_options:
                                                     for timedelta_back_in_granularity_increments in \
                                                             timedelta_back_in_granularity_increments_options:
-                                                        pool.apply_async(do_classifier_test, args=(
+                                                        pool.apply_async(do_prediction_test, args=(
                                                             ticker, hidden_layers, min_back, epochs, granularity,
                                                             datasetinputs,
                                                             learningrate, bias, momentum, recurrent, weightdecay,
