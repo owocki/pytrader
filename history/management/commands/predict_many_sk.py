@@ -5,7 +5,7 @@ from history.tools import print_and_log
 from multiprocessing import Pool
 
 
-def do_classifier_test(name, ticker, data_set_inputs, granularity, min_back, timedelta_back):
+def do_prediction_test(name, ticker, data_set_inputs, granularity, min_back, timedelta_back):
     try:
         ct = ClassifierTest(name=name,
                             type='mock',
@@ -74,7 +74,7 @@ class Command(BaseCommand):
                         for timedelta_back_in_granularity_increments in \
                                 timedelta_back_in_granularity_increments_options:
                             for name in name_options:
-                                pool.apply_async(do_classifier_test, args=(
+                                pool.apply_async(do_prediction_test, args=(
                                     name,
                                     ticker,
                                     datasetinputs,
