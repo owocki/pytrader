@@ -1,4 +1,5 @@
 django==1.8.2
+numpy==1.7.1
 scipy==0.13.3
 matplotlib==1.3.1
 PyBrain==0.3
@@ -7,3 +8,4 @@ django-chartit==0.1
 simplejson==3.8.2
 Cython==0.23.5
 sklearn==0.0
+supervisor==3.2.3

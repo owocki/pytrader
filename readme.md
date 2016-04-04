@@ -224,8 +224,37 @@ Once enough `Price` objects are stored in the database, you'll be able to begin 
 
 See the next document, [How to trade with pytrader](https://github.com/owocki/pytrader/blob/master/howto_trade.md).
 
+## Docker dev setup
 
-<!-- Google Analytics --> 
+Work with docker 1.10.3 and docker-compose 1.6.2
+
+- initalize your environment:
+
+```
+cp docker-compose.yml.example docker-compose.yml
+cp docker/env.example docker/env
+cp pypolo/local_settings.py.example pypolo/local_settings.py
+```
+
+1. Add your POLONIEX_API_KEY and POLONIEX_API_SECRET to docker/env (its gitignored, dont worry)
+2. Build Docker image (compiling stuff for scipy and numpy takes time): `docker-compose build` or pull the images from Docker Hub: `docker-compose pull`
+4. Run the containers: `docker-compose up`
+5. Get shell: `docker exec -it pytrader_web_1 /bin/bash`
+6. Place sql seed in this repo dir as `prices.psql`
+7. in Django container 
+
+```
+cd /root/pytrader
+export PGPASSWORD=$POSTGRES_PASSWORD
+psql -h db -U trader trader < prices.psql
+```
+wait for the psql load to end
+
+8. restart setup: (in the host): `docker-compose kill && docker-compose up -d`
+9. Visit http://localhost:8000/admin and log in as `trader:trader`
+
+
+<!-- Google Analytics -->
 <img src='https://ga-beacon.appspot.com/UA-1014419-15/owocki/pytrader' style='width:1px; height:1px;' >
 
 
