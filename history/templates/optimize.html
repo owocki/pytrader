@@ -80,7 +80,7 @@ h1.not_running{
 {% endfor %}
 
 
-<h1 class="{% if is_trader_running %} running {% else %} not_running {% endif %}">Trader is {% if is_trader_running %} running {% else %} NOT RUNNING {% endif %} Last seen {{trader_last_seen}} </h1>
+<h1 class="{% if is_trader_running %} running {% else %} not_running {% endif %}">Trader is {% if is_trader_running %} running {% else %} NOT RUNNING {% endif %} Last seen: {% if trader_last_seen %} {{trader_last_seen}} {% else %} Never (you haven't traded yet) {% endif %}</h1>
 {% for name in chartnames %}
 <div id='{{name}}' class="container"> Chart will be rendered here </div>
 {% endfor %}
