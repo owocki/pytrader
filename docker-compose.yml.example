@@ -14,9 +14,6 @@ services:
     depends_on:
       - db
     env_file: docker/env
-    environment:
-      POLONIEX_API_KEY:
-      POLONIEX_API_SECRET:
     volumes:
       - './:/root/pytrader'
 volumes:
