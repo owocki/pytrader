@@ -195,6 +195,22 @@ Right now trades will be closed after `granularity` minutes.
 
 [See this code](https://github.com/owocki/pytrader/blob/master/history/management/commands/trade.py#L86).  TLDR - The `trade.py` script makes an attempt at determining it's `confidence` in a position, and linearly adjusts its position from that.  PRs welcome.
 
+### I noticed we're not running any NN's for USDT_BTC, but are for ETH_BTC. Is there a reason or is that just arbitrary?
+
+Just arbitrary. My interest in trading USDT_BTC as a manual trader happened just as I was writing classifiertests.
+
+### Is there any rhyme or reason to the number of NN's and/or classifier tests run per pair?
+
+This will depend upon your available computational resources and how quickly you want results from the NN/classifiers. As an example, on a small VM with 0.5G of memory, I went through the optimization above 3x, at a cost of ~12 hours of compute per day, before I started trading. Whether that was enough optimization or I was just lucky is a matter of debate at the moment.
+
+### How is the weighting handled and how are they blended?
+
+The weighting is very rudimentary. See [above](https://github.com/owocki/pytrader/blob/owocki/trade_instructions/howto_trade.md#tradepy).
+
+### Why do bad things happen when you try to tune the classifiers (e.g. adjust datasetinput based on simulations)?
+
+This hasn't been implemented yet. You can alter parameters on the NNs, and should be able to adjust classifier type, but I haven't gotten around to adding more customization to classifiertests. We have an open issue [here](https://github.com/owocki/pytrader/issues/43) to track this.
+
 ## Reference: Other Important Administration Commands
 
 ### Neural Network Backtester
