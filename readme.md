@@ -19,6 +19,8 @@ __3/26/2016__ - My test portfolio was initialized with a 1 BTC deposit, and afte
 
 __3/27/2016__ - Sign up for the pytrader slack channel [here](https://github.com/owocki/pytrader/issues/23).
 
+__4/3/2016__ - New documentation -- [How to trade with pytrader](https://github.com/owocki/pytrader/blob/master/howto_trade.md)
+
 --- 
 
 ## How
@@ -215,38 +217,9 @@ crontab scripts/crontab.txt
 
 Once enough `Price` objects are stored in the database, you'll be able to begin training your NN / classifiers. (see example command `./manage.py pull_prices` below or [download a seed database of prices here](https://github.com/owocki/pytrader/issues/2)).
 
+## How do I optimize pytrader's trades?
 
-## Important Administration Commands
-
-### Neural Network Backtester
-
-```
-./manage.py predict_many_v2
-```
-
-### Classifier Backtester
-
-```
-./manage.py predict_many_sk
-```
-
-### Trade Bot
-
-```
-./manage.py trade
-```
-
-## Other Administration Commands
-
-These should ideally be scheduled via crontab:
-
-```
-./manage.py pull_deposits #checks API for any new deposits
-./manage.py pull_balance #records your balance in USD, BTC, native coin.
-./manage.py scheduled_trades # executes any _scheduled_ trades
-./manage.py pull_prices #pulls price data from exchanges
-```
-
+See the next document, [How to trade with pytrader](https://github.com/owocki/pytrader/blob/master/howto_trade.md).
 
 
 <!-- Google Analytics --> 
