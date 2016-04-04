@@ -645,11 +645,13 @@ def optimize_view(request):
         data[date][t.type].append(t.price)
         data[date][t.type+'vol'] =  data[date][t.type+'vol'] + [ t.amount ]
     bs = Balance.objects.filter(created_on__gte=start_time).all()
-    try:
-        last_trade = TradeRecommendation.objects.order_by('-created_on').first()
+
+    last_trade = TradeRecommendation.objects.order_by('-created_on').first()
+    if last_trade:
         trader_last_seen = (last_trade.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
         is_trader_running = last_trade.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
-    except Exception:
+    else:
+        trader_last_seen = None
         is_trader_running = False
 
     i = 0
