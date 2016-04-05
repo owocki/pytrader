@@ -21,6 +21,7 @@ RUN git clone git://github.com/bayerj/arac.git /root/arac && \
     cd /root/arac/ && \
     sed -i "s/.*test.*//i" SConstruct && \
     scons && \
-    cp libarac.so /usr/lib/
+    cp libarac.so /usr/lib/ && \
+    cd /root/
 
 ENV PYTHONPATH=/root/arac/src/python
