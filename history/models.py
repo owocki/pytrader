@@ -507,6 +507,7 @@ class PredictionTest(AbstractedTesterClass):
 
         try:
             import arac
+            print("ARAC Available, using fast mode network builder!")
             FNN = buildNetwork(DS.indim, self.hiddenneurons, DS.outdim, bias=self.bias, recurrent=self.recurrent,
                                fast=True)
         except ImportError:
