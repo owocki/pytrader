@@ -156,7 +156,7 @@ SMTP_PASSWORD = '<smtp_pass>'
 
 LOG_FILE = '/var/log/django.log'
 
-# Configuration of the number of threads to be used for predictions - Set to CPU cores + 1 if dedicated machine
+# Configuration of the number of threads to be used for predictions. Default is 1.
 NUM_THREADS = 5
 ```
 
@@ -236,7 +236,9 @@ cp docker/env.example docker/env
 cp pypolo/local_settings.py.example pypolo/local_settings.py
 ```
 
-1. Add your POLONIEX_API_KEY and POLONIEX_API_SECRET to docker/env (its gitignored, dont worry)
+1. Edit `docker/env`
+  - Add your POLONIEX_API_KEY and POLONIEX_API_SECRET (file is gitignored, dont worry)
+  - set NUM_THREADS to your liking (number of cores on your hw)
 2. Build Docker image (compiling stuff for scipy and numpy takes time): `docker-compose build` or pull the images from Docker Hub: `docker-compose pull`
 4. Run the containers: `docker-compose up`
 5. Get shell: `docker exec -it pytrader_web_1 /bin/bash`
