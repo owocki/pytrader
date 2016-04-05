@@ -22,41 +22,7 @@ class Command(BaseCommand):
         granularity = 10  # TODO: change me when granularity changes (search this string <---)
         if not settings.MAKE_TRADES:
             granularity = 1
-        self.predictor_configs = [
-            {'type': 'nn',
-                'name': 'ETH / 5',
-                'symbol': 'BTC_ETH',
-                'weight': 0.1,
-                'granularity': granularity,
-                'datasetinputs': 5},
-            {'type': 'nn',
-                'name': 'ETH / 5',
-                'symbol': 'BTC_ETH',
-                'weight': 0.1,
-                'granularity': granularity,
-                'datasetinputs': 4},
-            {'type': 'classifier',
-                'symbol': 'USDT_BTC',
-                'name': 'AdaBoost',
-                'weight': 0.1,
-                'granularity': granularity,
-                'datasetinputs': 2,
-                'minutes_back': 1000},
-            {'type': 'classifier',
-                'symbol': 'USDT_BTC',
-                'name': 'Naive Bayes',
-                'weight': 0.1,
-                'granularity': granularity,
-                'datasetinputs': 2,
-                'minutes_back': 1000},
-            {'type': 'classifier',
-                'symbol': 'BTC_ETH',
-                'name': 'Naive Bayes',
-                'weight': 2,
-                'granularity': granularity * 3,
-                'datasetinputs': 2,
-                'minutes_back': 1000},
-        ]
+        self.predictor_configs = settings.TRADER_CURRENCY_CONFIG
 
     def handle_open_orders(self):
 
