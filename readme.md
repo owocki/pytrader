@@ -256,7 +256,7 @@ docker exec -it pytrader_web_1 /bin/bash
 
 ### Postres dumps
 
-Seed dumps are available from https://dumps.snipanet.com. Thanks Snipa22!
+Seed dumps are available from http://dumps.snipanet.com. Thanks Snipa22!
 
 
 <!-- Google Analytics -->
