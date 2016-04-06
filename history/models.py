@@ -5,7 +5,7 @@ from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 from django.db import models
-from history.tools import create_sample_row
+from history.tools import create_sample_row, npc
 from django.utils.timezone import localtime
 from django.conf import settings
 import time
@@ -306,7 +306,7 @@ class ClassifierTest(AbstractedTesterClass):
                     price_datasets[1].append(do_buy)
                 except Exception as e:
                     pass
-
+                    
             data = price_datasets
             if self.timedelta_back_in_granularity_increments == 0:
                 train_data = data
@@ -320,22 +320,32 @@ class ClassifierTest(AbstractedTesterClass):
             X = StandardScaler().fit_transform(X)
             self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=.4)
 
-            self.x_min, self.x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
-            self.y_min, self.y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
-            self.xx, self.yy = np.meshgrid(np.arange(self.x_min, self.x_max, h),
-                                 np.arange(self.y_min, self.y_max, h))
-
+            self.min = {}
+            self.max = {}
+            self.xz = ()
+            mesh_args = []
+            for i in range(0,self.datasetinputs):
+                self.min[i], self.max[i] = X[:, i].min() - .5, X[:, i].max() + .5
+                mesh_args.append(np.arange(self.min[i], self.max[i], h))
+            self.xz = np.meshgrid(*mesh_args)
 
             clf.fit(self.X_train, self.y_train)
             score = clf.score(self.X_test, self.y_test)
+            
             # Plot the decision boundary. For that, we will assign a color to each
             # point in the mesh [self.x_min, m_max]x[self.y_min, self.y_max].
 
-            _input = np.c_[self.xx.ravel(), self.yy.ravel()]
+            self.ravel_args = []
+            for i in range(0,self.datasetinputs):
+                self.ravel_args.append(self.xz[i].ravel())
+
+            self._input = npc(self.ravel_args)
+            
             if hasattr(clf, "decision_function"):
-                self.Z = clf.decision_function(_input)
+                self.Z = clf.decision_function(self._input)
             else:
-                self.Z = clf.predict_proba(_input)[:, 1]
+                self.Z = clf.predict_proba(self._input)[:, 1]
+
             if test and len(test_data) > 0:
                 stats = { 'r' : 0, 'w' :0, 'p': {0:0, 1:0,-1:0}, 'a': {0:0, 1:0,-1:0} }
                 ds = test_data
@@ -391,14 +401,14 @@ class ClassifierTest(AbstractedTesterClass):
         ax.scatter(self.X_train[:, 0], self.X_train[:, 1], c=self.y_train, cmap=cm_bright)
         # and testing points
         ax.scatter(self.X_test[:, 0], self.X_test[:, 1], c=self.y_test, cmap=cm_bright, alpha=0.6)
-        ax.set_xlim(self.xx.min(), self.xx.max())
-        ax.set_ylim(self.yy.min(), self.yy.max())
+        ax.set_xlim(self.xz[0].min(), self.xz[0].max())
+        ax.set_ylim(self.xz[1].min(), self.xz[1].max())
         ax.set_xticks(())
         ax.set_yticks(())
 
-        self.Z = self.clf.predict(np.c_[self.xx.ravel(), self.yy.ravel()])
-        self.Z = self.Z.reshape(self.xx.shape)
-        ax.contourf(self.xx, self.yy, self.Z, cmap=cm, alpha=.8)
+        self.Z = self.clf.predict(self._input)
+        self.Z = self.Z.reshape(self.xz[0].shape)
+        ax.contourf(self.xz[0], self.xz[1], self.Z, cmap=cm, alpha=.8)
 
         # Plot also the training points
         ax.scatter(self.X_train[:, 0], self.X_train[:, 1], c=self.y_train, cmap=cm_bright)
@@ -406,13 +416,13 @@ class ClassifierTest(AbstractedTesterClass):
         ax.scatter(self.X_test[:, 0], self.X_test[:, 1], c=self.y_test, cmap=cm_bright,
                    alpha=0.6)
 
-        ax.set_xlim(self.xx.min(), self.xx.max())
-        ax.set_ylim(self.yy.min(), self.yy.max())
+        ax.set_xlim(self.xz[0].min(), self.xz[0].max())
+        ax.set_ylim(self.xz[1].min(), self.xz[1].max())
         ax.set_xticks(())
         ax.set_yticks(())
         ax.set_title("("+self.name+")")
         text  = ('%.2f' % self.score).lstrip('0')
-        ax.text(self.xx.max() - .3, self.yy.min() + .3, text,
+        ax.text(self.xz[0].max() - .3, self.xz[1].min() + .3, text,
                 size=15, horizontalalignment='right')
         i += 1
         filepath = settings.BASE_DIR + filename
