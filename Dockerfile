@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y \
         swig \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
+RUN pip install numpy==1.7.1
+RUN pip install scipy==0.13.3
+RUN pip install matplotlib==1.3.1
+
 COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt
 
