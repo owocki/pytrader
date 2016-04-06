@@ -505,7 +505,13 @@ class PredictionTest(AbstractedTesterClass):
         train_data, results_data = self.get_train_and_test_data()
         DS = self.create_DS(train_data)
 
-        FNN = buildNetwork(DS.indim, self.hiddenneurons, DS.outdim, bias=self.bias, recurrent=self.recurrent)
+        try:
+            import arac
+            print("ARAC Available, using fast mode network builder!")
+            FNN = buildNetwork(DS.indim, self.hiddenneurons, DS.outdim, bias=self.bias, recurrent=self.recurrent,
+                               fast=True)
+        except ImportError:
+            FNN = buildNetwork(DS.indim, self.hiddenneurons, DS.outdim, bias=self.bias, recurrent=self.recurrent)
         FNN.randomize()
         
         TRAINER = BackpropTrainer(FNN, dataset=DS, learningrate = self.learningrate, \

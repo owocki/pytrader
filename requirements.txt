@@ -9,3 +9,4 @@ simplejson==3.8.2
 Cython==0.23.5
 sklearn==0.0
 supervisor==3.2.3
+sc0ns==2.2.0.post1
