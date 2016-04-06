@@ -134,8 +134,15 @@ FEES = [
     {'maker': 0.0000, 'taker': 0.0010, 'volume': '>= 24000 BTC'},
 ]
 
-TRADE_VOLUME_TRAILING_30_DAYS = '< 600 BTC' #TODO - in the future, make this calculated dynamically
-TRADE_MODE = 'taker' #TODO -- in the future, make this more dynamicly chosen via trade.py
+TRADE_VOLUME_TRAILING_30_DAYS = '< 600 BTC'  # TODO - in the future, make this calculated dynamically
+TRADE_MODE = 'taker'  # TODO -- in the future, make this more dynamicly chosen via trade.py
+
+# sets how aggressive user wants to be in managing their trades
+# 1 = trade when if & when projected profit >= fees
+# 2 = trade when if & when projected profit >= 2x fees
+# . . .
+# n = trade when if & when projected profit >= nx fees
+FEE_MANAGEMENT_STRATEGY = 1
 
 # Include local settings overrides
 try:

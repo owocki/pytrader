@@ -235,6 +235,11 @@ class TradeRecommendation(TimeStampedModel):
     trade = models.ForeignKey('Trade',null=True,db_index=True)
 
 class ClassifierTest(AbstractedTesterClass):
+
+    BUY = 1
+    SELL = 0
+    HOLD = -1
+
     type = models.CharField(max_length=30,default='mock',db_index=True)
     symbol = models.CharField(max_length=30,db_index=True)
     name = models.CharField(max_length=100,default='')
@@ -300,8 +305,10 @@ class ClassifierTest(AbstractedTesterClass):
                     next_price = data[i+self.datasetinputs]
                     change =  next_price - last_price
                     pct_change = change / last_price
-                    fee_pct = get_fee_amount() * 2 #fee x 2 since we'd need to clear both buy and sell fees to be profitable
-                    do_buy = -1 if abs(pct_change) < fee_pct else (1 if change > 0 else 0)
+                    fee_pct = get_fee_amount()
+                    fee_pct = fee_pct * 2 #fee x 2 since we'd need to clear both buy and sell fees to be profitable
+                    fee_pct = fee_pct * settings.FEE_MANAGEMENT_STRATEGY # see desc in settings.py
+                    do_buy = ClassifierTest.HOLD if abs(pct_change) < fee_pct else (ClassifierTest.BUY if change > 0 else ClassifierTest.SELL)
                     price_datasets[0].append(sample)
                     price_datasets[1].append(do_buy)
                 except Exception as e:
@@ -369,7 +376,7 @@ class ClassifierTest(AbstractedTesterClass):
         nn_price = 0.00
         sample = StandardScaler().fit_transform(sample)
         recommend = self.clf.predict(sample)
-        recommend_str = 'HOLD' if recommend[0] == -1 else ('BUY' if recommend[0] == 1 else 'SELL')
+        recommend_str = 'HOLD' if recommend[0] == ClassifierTest.HOLD else ('BUY' if recommend[0] == ClassifierTest.BUY else 'SELL')
         projected_change_pct = 0.00
         return recommend_str, nn_price, last_sample, projected_change_pct
 
@@ -519,6 +526,8 @@ class PredictionTest(AbstractedTesterClass):
         return FNN
 
     def recommend_trade(self,nn_price,last_sample, fee_amount = get_fee_amount()):
+        fee_amount = fee_amount * 2 #fee x 2 since we'd need to clear both buy and sell fees to be profitable
+        fee_amount = fee_amount * settings.FEE_MANAGEMENT_STRATEGY # see desc in settings.py
         anticipated_percent_increase = (nn_price - last_sample) / last_sample
         if abs(anticipated_percent_increase) < fee_amount:
             should_trade = 'HOLD' 
