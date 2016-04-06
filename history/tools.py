@@ -129,7 +129,7 @@ def get_deposit_balance():
 
 
 def get_fee_amount(volume=settings.TRADE_VOLUME_TRAILING_30_DAYS, mode=settings.TRADE_MODE):
-    for meta in settings.FEES:
+    for meta in settings.FEES['poloniex']:
         if meta['volume'] == volume:
             return meta[mode]
 
