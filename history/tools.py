@@ -127,34 +127,3 @@ def get_deposit_balance():
         usd_deposit_amount = usd_deposit_amount + usd_amount
     return btc_deposit_amount, usd_deposit_amount
 
-
-def npc(args):
-    # hack to enter multiple args into np.c_
-    if len(args) == 1:
-        return np.c_[args[0]]
-    if len(args) == 2:
-        return np.c_[args[0], args[1]]
-    if len(args) == 3:
-        return np.c_[args[0], args[1], args[2]]
-    if len(args) == 4:
-        return np.c_[args[0], args[1], args[2], args[3]]
-    if len(args) == 5:
-        return np.c_[args[0], args[1], args[2], args[3], args[4]]
-    if len(args) == 6:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5]]
-    if len(args) == 7:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6]]
-    if len(args) == 8:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]]
-    if len(args) == 9:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]]
-    if len(args) == 10:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]]
-    if len(args) == 11:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]]
-    if len(args) == 12:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], args[11]]
-    if len(args) == 13:
-        return np.c_[args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], args[11], args[12]]
-
-    raise NotImplementedError()

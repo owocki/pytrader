@@ -5,7 +5,7 @@ from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 from django.db import models
-from history.tools import create_sample_row, npc
+from history.tools import create_sample_row
 from django.utils.timezone import localtime
 from django.conf import settings
 import time
@@ -339,7 +339,7 @@ class ClassifierTest(AbstractedTesterClass):
             for i in range(0,self.datasetinputs):
                 self.ravel_args.append(self.xz[i].ravel())
 
-            self._input = npc(self.ravel_args)
+            self._input = np.column_stack(self.ravel_args)
             
             if hasattr(clf, "decision_function"):
                 self.Z = clf.decision_function(self._input)
