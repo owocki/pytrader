@@ -5,7 +5,7 @@ from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 from django.db import models
-from history.tools import create_sample_row
+from history.tools import create_sample_row, get_fee_amount
 from django.utils.timezone import localtime
 from django.conf import settings
 import time
@@ -152,7 +152,7 @@ class Trade(TimeStampedModel):
     usd_net_profit = models.FloatField(null=True)
 
     def calculatefees(self):
-        self.fee_amount = self.amount * 0.002
+        self.fee_amount = self.amount * get_fee_amount()
 
     def calculate_exchange_rates(self):
         from history.tools import get_exchange_rate_to_btc, get_exchange_rate_btc_to_usd
@@ -300,7 +300,7 @@ class ClassifierTest(AbstractedTesterClass):
                     next_price = data[i+self.datasetinputs]
                     change =  next_price - last_price
                     pct_change = change / last_price
-                    fee_pct = 0.002 * 2 #fee x 2 since we'd need to clear both buy and sell fees to be profitable
+                    fee_pct = get_fee_amount() * 2 #fee x 2 since we'd need to clear both buy and sell fees to be profitable
                     do_buy = -1 if abs(pct_change) < fee_pct else (1 if change > 0 else 0)
                     price_datasets[0].append(sample)
                     price_datasets[1].append(do_buy)
@@ -518,7 +518,7 @@ class PredictionTest(AbstractedTesterClass):
         self.nn = FNN
         return FNN
 
-    def recommend_trade(self,nn_price,last_sample, fee_amount = 0.002):
+    def recommend_trade(self,nn_price,last_sample, fee_amount = get_fee_amount()):
         anticipated_percent_increase = (nn_price - last_sample) / last_sample
         if abs(anticipated_percent_increase) < fee_amount:
             should_trade = 'HOLD' 
