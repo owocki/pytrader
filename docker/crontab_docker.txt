@@ -1,0 +1,11 @@
+# m h  dom mon dow   command
+* * * * * #source /tmp/.app.env; cd pytrader; ./manage.py runserver $IP_ADDRESS:80 #KO NOTES -- This is done in a while loop in a screen now
+1 1 * * * #source /tmp/.app.env; cd pytrader; ./manage.py predict_many_v2  #KO NOTES -- This is done in a while loop in a screen now
+1 1 * * * #source /tmp/.app.env; cd pytrader; ./manage.py predict_many_sk  #KO NOTES -- This is done in a while loop in a screen now
+*/30 * * * * source /tmp/.app.env; cd pytrader; ./manage.py alert_fail_cases
+* * * * * source /tmp/.app.env; cd pytrader; ./manage.py pull_prices
+1 */6 * * * source /tmp/.app.env; cd pytrader; ./manage.py pull_deposits
+*/5 * * * * source /tmp/.app.env; cd pytrader; ./manage.py pull_balance
+*/5 * * * * source /tmp/.app.env; cd pytrader; ./manage.py scheduled_trades
+1,11,21,31,41,51 * * * * source /tmp/.app.env; cd pytrader; ./manage.py compare_perf #TODO: change me when granularity changes
+#1 1 * * * cd pytrader; sh scripts/make_backup.sh

@@ -20,5 +20,6 @@ sed -i  's/from django.utils import simplejson/import simplejson/' /usr/local/li
 cp ./docker/create_admin.py ./
 ./create_admin.py
 ./manage.py migrate --noinput
-crontab /root/pytrader/scripts/crontab.txt
+crontab /root/pytrader/docker/crontab_docker.txt
+env > /tmp/.app.env
 exec supervisord -n -c /root/pytrader/docker/supervisord.conf
