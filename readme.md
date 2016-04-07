@@ -149,9 +149,10 @@ DEBUG_APPS = []
 # this defines whether trade.py will actually submit trades to the poloniex API.  setting to `False` is useful for testing
 MAKE_TRADES = True
 
-# the following 3 lines are needed only if you want to be alerted of fail cases (when the trader is not running, etc)
+# the following 4 lines are needed only if you want to be alerted of fail cases (when the trader is not running, etc)
 ALERT_EMAIL = '<your_email>'
 SMTP_USERNAME = '<smtp_user>'
+SMTP_HOST = '<smtp_host>'
 SMTP_PASSWORD = '<smtp_pass>'
 
 LOG_FILE = '/var/log/django.log'
