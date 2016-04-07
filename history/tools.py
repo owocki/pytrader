@@ -2,6 +2,7 @@ import time
 import datetime
 from django.conf import settings
 import numpy as np
+from django.core.exceptions import ImproperlyConfigured
 
 
 def print_and_log(log_string):
@@ -127,3 +128,10 @@ def get_deposit_balance():
         usd_deposit_amount = usd_deposit_amount + usd_amount
     return btc_deposit_amount, usd_deposit_amount
 
+
+def get_fee_amount(volume=settings.TRADE_VOLUME_TRAILING_30_DAYS, mode=settings.TRADE_MODE):
+    for meta in settings.FEES['poloniex']:
+        if meta['volume'] == volume:
+            return meta[mode]
+
+    raise ImproperlyConfigured('could not find fee amount for {} / {}'.format(volume, mode))

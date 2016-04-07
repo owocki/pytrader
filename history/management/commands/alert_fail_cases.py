@@ -7,26 +7,24 @@ class Command(BaseCommand):
 
     help = 'sends email if a fail condition is met'
 
-    def alert_email(self,fail_message):
+    def alert_email(self, fail_message):
         import smtplib
         sender = [settings.ALERT_EMAIL]
         receivers = [settings.ALERT_EMAIL]
 
-        message = """From: """ + setings.ALERT_EMAIL """ +
-        To:  """ + setings.ALERT_EMAIL """ +
-        Subject: Fail Case - """ + fail_message + """
-
-        """ + fail_message + """
-        """
+        message = 'From: {0}\nTo: {0}\nSubject: Fail case\n\n{1}\n'.format(
+            settings.ALERT_EMAIL,
+            fail_message
+        )
 
         try:
-           smtpObj = smtplib.SMTP('smtp.sendgrid.net',587)
+           smtpObj = smtplib.SMTP('smtp.sendgrid.net', 587)
            smtpObj.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-           smtpObj.sendmail(sender, receivers, message)   
-           smtpObj.quit()      
-           print "Successfully sent email"
+           smtpObj.sendmail(sender, receivers, message)
+           smtpObj.quit()
+           print("Successfully sent email")
         except Exception as e:
-           print "Error: unable to send email"
+           print("Error: unable to send email")
            print(e)
 
 
