@@ -240,7 +240,7 @@ cp pypolo/local_settings.py.example pypolo/local_settings.py
 - Set your PYTRADER_LOGIN and PYTRADER_PASSWORD to docker/env.  This will set the login you use to access the site.
 - Build Docker image (compiling stuff for scipy and numpy takes time): `docker-compose build` or pull the images from Docker Hub: `docker-compose pull`
 - Run the containers: `docker-compose up`
-- Seed your db with newest dump from http://dumps.snipanet.com:
+- Seed your db with newest dump from http://repo.snipanet.com:
 
 ```
 docker exec -it pytrader_web_1 /root/pytrader/scripts/load_newest_data.sh
@@ -256,7 +256,7 @@ docker exec -it pytrader_web_1 /bin/bash
 
 ### Postres dumps
 
-Seed dumps are available from http://dumps.snipanet.com. Thanks Snipa22!
+Seed dumps are available from http://repo.snipanet.com. Thanks Snipa22!
 
 
 <!-- Google Analytics -->
