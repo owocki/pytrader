@@ -1,10 +1,8 @@
-
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from history.tools import get_fee_amount
 from history.models import Price, TradeRecommendation, PerformanceComp
 import datetime
-from django.db import transaction
 
 
 class Command(BaseCommand):
@@ -18,15 +16,21 @@ class Command(BaseCommand):
         ticker = 'BTC_ETH'
 
         # get data
-        date_of_timerange_we_care_about_predictions_start = datetime.datetime.now() - datetime.timedelta(seconds=((granularity_mins) * 60 + (60 * (1 + buffer_between_prediction_and_this_script_mins))))
-        date_of_timerange_we_care_about_predictions_end = datetime.datetime.now() - datetime.timedelta(seconds=((granularity_mins) * 60))
-        tr_timerange_end = TradeRecommendation.objects.filter(symbol=ticker, created_on__gte=date_of_timerange_we_care_about_predictions_start, created_on__lte=date_of_timerange_we_care_about_predictions_end).order_by('-created_on').first().created_on
+        date_of_timerange_we_care_about_predictions_start = datetime.datetime.now() - datetime.timedelta(
+            seconds=((granularity_mins) * 60 + (60 * (1 + buffer_between_prediction_and_this_script_mins))))
+        date_of_timerange_we_care_about_predictions_end = datetime.datetime.now() - datetime.timedelta(
+            seconds=((granularity_mins) * 60))
+        tr_timerange_end = TradeRecommendation.objects.filter(
+            symbol=ticker, created_on__gte=date_of_timerange_we_care_about_predictions_start,
+            created_on__lte=date_of_timerange_we_care_about_predictions_end).order_by('-created_on').first().created_on
         tr_timerange_start = tr_timerange_end - datetime.timedelta(seconds=120)
         price_timerange_start = tr_timerange_end
         price_timerange_end = tr_timerange_end + datetime.timedelta(seconds=(granularity_mins * 60))
         trs = TradeRecommendation.objects.filter(created_on__gte=tr_timerange_start, created_on__lte=tr_timerange_end)
-        price_now = Price.objects.filter(symbol=ticker, created_on__lte=price_timerange_end).order_by('-created_on').first().price
-        price_then = Price.objects.filter(symbol=ticker, created_on__lte=price_timerange_start).order_by('-created_on').first().price
+        price_now = Price.objects.filter(symbol=ticker, created_on__lte=price_timerange_end
+                                         ).order_by('-created_on').first().price
+        price_then = Price.objects.filter(symbol=ticker, created_on__lte=price_timerange_start
+                                          ).order_by('-created_on').first().price
 
         # nn attributes
         pct_buy = round(1.0 * sum(tr.recommendation == 'BUY' for tr in trs) / len(trs), 2)
@@ -34,10 +38,12 @@ class Command(BaseCommand):
         pct_hold = round(1.0 * sum(tr.recommendation == 'HOLD' for tr in trs) / len(trs), 2)
         price_diff = price_now - price_then
         price_pct = price_diff / price_then
-        price_buy_hold_sell = 0 if abs(price_pct) < get_fee_amount() else (1 if price_pct > 0 else -1)  # -1 = sell, 0 = hold, 1 = wait
+        # -1 = sell, 0 = hold, 1 = wait
+        price_buy_hold_sell = 0 if abs(price_pct) < get_fee_amount() else (1 if price_pct > 0 else -1)
         avg_nn_rec = 1.0 * sum(tr.net_amount for tr in trs) / len(trs)
         weighted_avg_nn_rec = 1.0 * sum(tr.net_amount * (tr.confidence / 100.0) for tr in trs) / len(trs)
-        directionally_same = ((avg_nn_rec > 0 and price_buy_hold_sell > 0) or (avg_nn_rec < 0 and price_buy_hold_sell < 0))
+        directionally_same = ((avg_nn_rec > 0 and price_buy_hold_sell > 0) or
+                              (avg_nn_rec < 0 and price_buy_hold_sell < 0))
         delta = abs(abs(avg_nn_rec) - abs(price_buy_hold_sell)) * (1 if directionally_same else -1)
 
         pc = PerformanceComp(symbol=ticker,

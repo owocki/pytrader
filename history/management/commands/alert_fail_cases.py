@@ -36,8 +36,10 @@ class Command(BaseCommand):
         print(last_trade.created_on)
 
         # 7 hours thing is a hack for MST vs UTC timezone issues
-        is_trader_running = last_trade.created_on > (get_time() - datetime.timedelta(hours=int(7)) - datetime.timedelta(minutes=int(15)))
-        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(hours=int(7)) - datetime.timedelta(minutes=int(15)))
+        is_trader_running = last_trade.created_on > (
+            get_time() - datetime.timedelta(hours=int(7)) - datetime.timedelta(minutes=int(15)))
+        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(hours=int(7)) -
+                                                   datetime.timedelta(minutes=int(15)))
 
         if not is_trader_running:
             self.alert_email("not is_trader_running")

@@ -1,6 +1,6 @@
-
 from django.core.management.base import BaseCommand
 from django.conf import settings
+
 
 class Command(BaseCommand):
 
@@ -11,7 +11,7 @@ class Command(BaseCommand):
         from history.models import Price
         import time
 
-        poo = poloniex(settings.API_KEY,settings.API_SECRET)
+        poo = poloniex(settings.API_KEY, settings.API_SECRET)
         price = poo.returnTicker()
 
         for ticker in price.keys():
@@ -27,4 +27,3 @@ class Command(BaseCommand):
             p.symbol = ticker
             p.created_on_str = str(p.created_on)
             p.save()
-
