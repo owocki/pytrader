@@ -226,7 +226,7 @@ See the next document, [How to trade with pytrader](https://github.com/owocki/py
 
 ## Docker dev setup
 
-Work with docker 1.10.3 and docker-compose 1.6.2
+[Install docker](https://docs.docker.com/engine/installation/) at least version 1.10.3, and [install docker-compose](https://docs.docker.com/compose/install/) at least version 1.6.2.
 
 - initalize your environment:
 
@@ -236,38 +236,27 @@ cp docker/env.example docker/env
 cp pypolo/local_settings.py.example pypolo/local_settings.py
 ```
 
-1. Add your POLONIEX_API_KEY and POLONIEX_API_SECRET to docker/env (its gitignored, dont worry)
-2. Set your PYTRADER_LOGIN and PYTRADER_PASSWORD to docker/env.  This will set the login you use to access the site.
-3. Build Docker image (compiling stuff for scipy and numpy takes time): `docker-compose build` or pull the images from Docker Hub: `docker-compose pull`
-4. Run the containers: `docker-compose up`
-5. Get shell: `docker exec -it pytrader_web_1 /bin/bash`
-6. Place sql seed in this repo dir as `prices.psql`, or see PSQL_NOTES below
-7. in Django container
+- Add your POLONIEX_API_KEY and POLONIEX_API_SECRET to docker/env (its gitignored, dont worry)
+- Set your PYTRADER_LOGIN and PYTRADER_PASSWORD to docker/env.  This will set the login you use to access the site.
+- Build Docker image (compiling stuff for scipy and numpy takes time): `docker-compose build` or pull the images from Docker Hub: `docker-compose pull`
+- Run the containers: `docker-compose up`
+- Seed your db with newest dump from http://repo.snipanet.com:
 
 ```
-cd /root/pytrader
-export PGPASSWORD=$POSTGRES_PASSWORD
-psql -h db -U trader trader < prices.psql
+docker exec -it pytrader_web_1 /root/pytrader/scripts/load_newest_data.sh
 ```
-wait for the psql load to end
 
-8. restart setup: (in the host): `docker-compose kill && docker-compose up -d`
-9. Visit http://localhost:8000/admin and log in as `trader:trader`
+- visit http://localhost:8000/admin and log in with your PYTRADER\_{LOGIN,PASSWORD} credentials.
 
+### Get shell in pytrader container
 
-PSQL_NOTES
-PSQL seed is available from: http://dumps.snipanet.com/
-Newest seed is available at http://dumps.snipanet.com/history_price-latest.psql.gz
-
-Script that can be run to update the first time:
 ```
-cd /root/pytrader
-wget http://dumps.snipanet.com/history_price-latest.psql.gz
-gunzip history_price-latest.psql.gz
-export PGPASSWORD=$POSTGRES_PASSWORD
-psql -h db -U trader trader < history_price-latest.psql
-rm -f history_price-latest.psql
+docker exec -it pytrader_web_1 /bin/bash
 ```
+
+### Postres dumps
+
+Seed dumps are available from http://repo.snipanet.com. Thanks Snipa22!
 
 
 <!-- Google Analytics -->
