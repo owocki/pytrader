@@ -122,9 +122,93 @@ LOG_FILE = "/var/log/django.log"
 # Default number of threads for workers
 NUM_THREADS = 1
 
+TRADER_GRANULARITY_MINS = 10  # TODO: change me when granularity changes (search this string <---)
+
+TRADER_CURRENCY_CONFIG = [
+    {'type': 'nn',
+     'name': 'ETH / 5',
+     'symbol': 'BTC_ETH',
+     'weight': 0.1,
+     'granularity': TRADER_GRANULARITY_MINS,
+     'datasetinputs': 5},
+    {'type': 'nn',
+     'name': 'ETH / 5',
+     'symbol': 'BTC_ETH',
+     'weight': 0.1,
+     'granularity': TRADER_GRANULARITY_MINS,
+     'datasetinputs': 4},
+    {'type': 'classifier',
+     'symbol': 'USDT_BTC',
+     'name': 'AdaBoost',
+     'weight': 0.1,
+     'granularity': TRADER_GRANULARITY_MINS,
+     'datasetinputs': 2,
+     'minutes_back': 1000},
+    {'type': 'classifier',
+     'symbol': 'USDT_BTC',
+     'name': 'Naive Bayes',
+     'weight': 0.1,
+     'granularity': TRADER_GRANULARITY_MINS,
+     'datasetinputs': 2,
+     'minutes_back': 1000},
+    {'type': 'classifier',
+     'symbol': 'BTC_ETH',
+     'name': 'Naive Bayes',
+     'weight': 2,
+     'granularity': TRADER_GRANULARITY_MINS * 3,
+     'datasetinputs': 2,
+     'minutes_back': 1000},
+]
+
+TRAINER_CURRENCY_CONFIG = {
+    'classifiers': {
+        'ticker': ['BTC_ETH', 'USDT_BTC'],
+        'min_back': [100, 1000, 24 * 60, 24 * 60 * 2],
+        'granularity': [10, 15, 20, 30, 40, 50, 60, 120, 240],
+        'datasetinputs': [2, 3, 5],
+        'timedelta_back_in_granularity_increments': [10, 30, 60, 100, 1000],
+        'name': ["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
+                 "Random Forest", "AdaBoost", "Naive Bayes", "Linear Discriminant Analysis",
+                 "Quadratic Discriminant Analysis"],
+    },
+    'supervised_nn': {
+        'ticker': ['BTC_ETH', 'USDT_BTC'],
+        'hidden_layer': [1, 5, 15, 40],
+        # 2/23 -- removed 15, it was barely edged out by 1,5.
+        # 2/25 -- added 15, 40 in because of recent bugs
+        'min_back': [100, 1000, 24 * 60, 24 * 60 * 2],
+        # 2/22 - eliminated 10000
+        # 2/25 -- added 24*50, 24*60*2 because "maybe because NN only contains last 1000 data points (1/3 day).
+        #   if only selling happened during that time, nn will bias towards selling.  duh!"
+        'granularity': [10, 15, 20, 30, 40, 50, 60, 120, 240],
+        # 2/23 notes - results so far: 59 (54% correct) 15 (56% correct) 1 (50% correct) 5 (52% correct).
+        #   removing 1,5, adding 30 . 2/23 (pt 2) -- added 119, 239
+        # 2/24 notes -- removed 120,240, added 20, 40, 45
+        # 2/25 notes -- added 10, 50, removed 45
+        # 2/25 -- added 120,240 back in to retest in light of recent bugs
+        'datasetinput': [1, 2, 3, 4, 5, 6, 15, 10, 20, 40, 100, 200],
+        # 2/23 -- removed 3,5,15 -- added 20,40,100
+        # 2/24 -- removed 7,10,20,40,100, added 3,4,5
+        # 2/25 -- added 3,5,15,10,20,40,100 back in to retest in light of recent bugs
+        'epoch': [1000],
+        # 2/22 -- eliminated 4000, 100
+        'bias': [True],
+        # 2/22 -- Eliminated 'False'
+        'momentum': [0.1],
+        'learningrate': [0.05],
+        # 2/22 -- elimated 0.005, 0.01, adding 0.03 and 0.1 today.  #2/23 - 0.1 (54% correct) 0.05 (55% correct) 0.03
+        # (54% correct) .  eliminating everything but 0.05 so i can test more #datasetinput_options
+        'weightdecay': [0.0],
+        # 2/22 -- eliminated 0.1,0.2
+        'recurrent': [True],
+        # 2/23 notes - 0 (52% correct) 1 (55% correct), removed false
+        'timedelta_back_in_granularity_increments': [10, 30, 60, 100, 1000],
+    }
+}
+
 # https://poloniex.com/fees/
-FEES = { 
-    'poloniex' :[
+FEES = {
+    'poloniex': [
         {'maker': 0.0015, 'taker': 0.0025, 'volume': '< 600 BTC'},
         {'maker': 0.0014, 'taker': 0.0024, 'volume': '>= 600 BTC'},
         {'maker': 0.0012, 'taker': 0.0022, 'volume': '>= 1200 BTC'},
@@ -133,7 +217,7 @@ FEES = {
         {'maker': 0.0005, 'taker': 0.0014, 'volume': '>= 12000 BTC'},
         {'maker': 0.0002, 'taker': 0.0012, 'volume': '>= 18000 BTC'},
         {'maker': 0.0000, 'taker': 0.0010, 'volume': '>= 24000 BTC'},
-    ] }
+    ]}
 
 TRADE_VOLUME_TRAILING_30_DAYS = '< 600 BTC'  # TODO - in the future, make this calculated dynamically
 TRADE_MODE = 'taker'  # TODO -- in the future, make this more dynamicly chosen via trade.py

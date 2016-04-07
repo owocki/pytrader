@@ -1,6 +1,7 @@
 import time
 import datetime
 from django.conf import settings
+import numpy as np
 from django.core.exceptions import ImproperlyConfigured
 
 

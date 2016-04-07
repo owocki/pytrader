@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # setup
         buffer_between_prediction_and_this_script_mins = datetime.datetime.now().minute % 10
-        granularity_mins = 10  # TODO: change me when granularity changes
+        granularity_mins = settings.TRADER_GRANULARITY_MINS
         ticker = 'BTC_ETH'
 
         # get data

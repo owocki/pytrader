@@ -46,34 +46,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        ticker_options = ['BTC_ETH', 'USDT_BTC']
-
-        min_back_options = [100, 1000, 24 * 60, 24 * 60 * 2]
-
-        granularity_options = [10, 15, 20, 30, 40, 50, 60, 120, 240]
-        if not settings.MAKE_TRADES:
-            granularity_options = [1]
-
-        datasetinput_options = [2]
-        # TODO: enable more than just 1 type
-
-        # sets how far apart (in granularity increments) the datasets are
-        timedelta_back_in_granularity_increments_options = [10, 30, 60, 100, 1000]
-
-        name_options = ["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
-                        "Random Forest", "AdaBoost", "Naive Bayes", "Linear Discriminant Analysis",
-                        "Quadratic Discriminant Analysis"]
-
         pool = Pool(settings.NUM_THREADS)
-
+        conf = settings.TRAINER_CURRENCY_CONFIG['classifiers']
         print("Starting SK run")
-        for ticker in ticker_options:
-            for min_back in min_back_options:
-                for granularity in granularity_options:
-                    for datasetinputs in datasetinput_options:
+        for ticker in conf['ticker']:
+            for min_back in conf['min_back']:
+                for granularity in conf['granularity']:
+                    for datasetinputs in conf['datasetinputs']:
                         for timedelta_back_in_granularity_increments in \
-                                timedelta_back_in_granularity_increments_options:
-                            for name in name_options:
+                                conf['timedelta_back_in_granularity_increments']:
+                            for name in conf['name']:
                                 pool.apply_async(do_classifier_test, args=(
                                     name,
                                     ticker,
