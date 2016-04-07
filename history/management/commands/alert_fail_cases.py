@@ -19,7 +19,7 @@ class Command(BaseCommand):
         )
 
         try:
-            smtpObj = smtplib.SMTP(settings.SMTP_USERNAME, 587)
+            smtpObj = smtplib.SMTP(settings.SMTP_HOST, 587)
             smtpObj.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
             smtpObj.sendmail(sender, receivers, message)
             smtpObj.quit()
