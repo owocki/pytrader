@@ -4,6 +4,8 @@ except ImportError:
     import trollius as asyncio
 from autobahn.asyncio.wamp import ApplicationRunner, ApplicationSession
 from django.core.management.base import BaseCommand
+from history.models import Price
+import time
 
 
 class MainReader(ApplicationSession):
@@ -33,9 +35,6 @@ class MainReader(ApplicationSession):
             8 - 24 Hour High
             9 - 24 Hour low
             """
-            from history.models import Price
-            import time
-
             this_price = args[1]
             this_volume = args[6]
             the_str = args[0] + ',' + str(time.time()) + ',' + this_price + ", " + this_volume
