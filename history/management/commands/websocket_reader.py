@@ -55,7 +55,7 @@ class MainReader(ApplicationSession):
 
 class Command(BaseCommand):
     help = 'Websocket handler for taking data from a remote WSAPI and inserting into the DB.'
-    
+
     def handle(self, *args, **options):
         runner = ApplicationRunner(u"wss://api.poloniex.com", u'realm1')
         runner.run(MainReader)
