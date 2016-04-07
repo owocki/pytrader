@@ -122,7 +122,7 @@ LOG_FILE = "/var/log/django.log"
 # Default number of threads for workers
 NUM_THREADS = 1
 
-TRADER_GRANULARITY_MINS= 10  # TODO: change me when granularity changes (search this string <---)
+TRADER_GRANULARITY_MINS = 10  # TODO: change me when granularity changes (search this string <---)
 
 TRADER_CURRENCY_CONFIG = [
     {'type': 'nn',
@@ -165,7 +165,7 @@ TRAINER_CURRENCY_CONFIG = {
         'ticker': ['BTC_ETH', 'USDT_BTC'],
         'min_back': [100, 1000, 24 * 60, 24 * 60 * 2],
         'granularity': [10, 15, 20, 30, 40, 50, 60, 120, 240],
-        'datasetinputs': [2], # TODO: enable more than just 1 type
+        'datasetinputs': [2, 3, 5],
         'timedelta_back_in_granularity_increments': [10, 30, 60, 100, 1000],
         'name': ["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
                  "Random Forest", "AdaBoost", "Naive Bayes", "Linear Discriminant Analysis",
