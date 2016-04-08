@@ -169,7 +169,7 @@ TRADER_CURRENCY_CONFIG = [
 #    starting point of dataset = present - timedelta_back_in_granularity_increments - min_back
 #    ending point of dataset = present - timedelta_back_in_granularity_increments
 # name - name of classification algorithm (see sklearn documentation for more)
-# hidden_layer - number of pybrain hidden layers to use
+# hidden_layers - number of pybrain hidden layers to use
 # epoch  -  Train on the current dataset for the given number of epochs. 
 # bias  -  (bool) bias flags to indicate whether the network should have biases  http://pybrain.org/docs/api/tools.html?highlight=buildnetwork#pybrain.tools.shortcuts.buildNetwork
 # momentum -   http://pybrain.org/docs/api/supervised/trainers.html?highlight=momentum
@@ -190,7 +190,7 @@ TRAINER_CURRENCY_CONFIG = {
     },
     'supervised_nn': {
         'ticker': ['BTC_ETH', 'USDT_BTC'],
-        'hidden_layer': [1, 5, 15, 40],
+        'hidden_layers': [1, 5, 15, 40],
         # 2/23 -- removed 15, it was barely edged out by 1,5.
         # 2/25 -- added 15, 40 in because of recent bugs
         'min_back': [100, 1000, 24 * 60, 24 * 60 * 2],
