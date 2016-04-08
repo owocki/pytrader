@@ -25,4 +25,3 @@ urlpatterns = [
     url(r'^admin/profit', profit_view),
     url(r'^admin/optimize', optimize_view),
 ]
-

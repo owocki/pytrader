@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from history.predict import predict_v2
 from history.models import Price, PredictionTest, Trade, TradeRecommendation, Balance, get_time, ClassifierTest
 from history.tools import get_utc_unixtime, print_and_log
 import datetime
@@ -19,9 +18,6 @@ class Command(BaseCommand):
 
     def setup(self):
         # setup
-        granularity = 10  # TODO: change me when granularity changes (search this string <---)
-        if not settings.MAKE_TRADES:
-            granularity = 1
         self.predictor_configs = settings.TRADER_CURRENCY_CONFIG
 
     def handle_open_orders(self):
@@ -36,7 +32,8 @@ class Command(BaseCommand):
                     orderNumber = order['orderNumber']
                     rate = order['rate']
                     self.poo.cancel(ticker, orderNumber)
-                    print_and_log('(t) -- handle_open_orders -- canceled stale order {} at rate {}'.format(orderNumber, rate))
+                    print_and_log('(t) -- handle_open_orders -- canceled stale order {} at rate {}'.
+                                  format(orderNumber, rate))
                     for t in Trade.objects.filter(symbol=ticker, orderNumber=orderNumber):
                         t.status = 'canceled'
                         t.save()
@@ -52,7 +49,8 @@ class Command(BaseCommand):
 
     def decide_trade_amount(self, recommendation, i):
         config = self.predictor_configs[i]
-        symbol = config['symbol']  # TODO: set an amount in USD, then figure out base_amount in currency based upon that, not a hardcoded value.
+        # TODO: set an amount in USD, then figure out base_amount in currency based upon that, not a hardcoded value.
+        symbol = config['symbol']
         if symbol == 'USDT_BTC':
             amount = 0.01
         else:
@@ -77,7 +75,12 @@ class Command(BaseCommand):
                 amount = amount / multiplier
 
             # debugging info
-            #print_and_log('(t)---- decide trade amount --- amount: {}, multiplier: {}, confidence_diff: {}, confidence: {} confidence_diff_positive: {} '.format(round(amount,2),round(multiplier,2),round(confidence_diff,2),int(confidence),confidence_diff_positive))
+            """
+            print_and_log('(t)---- decide trade amount --- amount: {}, multiplier: {}, confidence_diff: {},\
+                            confidence: {} confidence_diff_positive: {} '.\
+                          format(round(amount,2),round(multiplier,2),round(confidence_diff, 2),
+                                 int(confidence),confidence_diff_positive))
+            """
 
         return amount
 
@@ -126,7 +129,8 @@ class Command(BaseCommand):
             print_and_log('(t)---- act_upon_recommendation declining to act.  NNs not decisive')
 
         if response or not settings.MAKE_TRADES:
-            print_and_log('(t)---- act_upon_recommendation performing {} for {} units. response from api: {}'.format(action, amount, response))
+            print_and_log('(t)---- act_upon_recommendation performing {} for {} units. response from api: {}'.
+                          format(action, amount, response))
 
             # make this trade now
             t = Trade(type=action,
@@ -178,7 +182,9 @@ class Command(BaseCommand):
             clf = predictor
             made_by = None
 
-        print_and_log("(t)({})---- ({} w. {}% conf) ---- price from {} => {}({}% change); ".format(nn_index, recommend, round(confidence, 0), round(last_sample, 4), round(nn_price, 4), int(projected_change_pct * 100.0)))
+        print_and_log("(t)({})---- ({} w. {}% conf) ---- price from {} => {}({}% change); ".
+                      format(nn_index, recommend, round(confidence, 0), round(last_sample, 4),
+                             round(nn_price, 4), int(projected_change_pct * 100.0)))
         tr = TradeRecommendation(symbol=config['symbol'],
                                  made_on=str(prices),
                                  made_by=made_by,
@@ -216,8 +222,8 @@ class Command(BaseCommand):
                 pt.save()
                 predict_runtime = pt.predict_runtime()
                 predict_confidence = pt.confidence()
-                print_and_log("(t)predicted trainingtime for nn #{} {}: {}s, predicted confidence: {}%".format(i, config['name'], round(predict_runtime, 1), int(predict_confidence)))
-                nn = pt.get_nn(train=settings.MAKE_TRADES)
+                print_and_log("(t)predicted trainingtime for nn #{} {}: {}s, predicted confidence: {}%".
+                              format(i, config['name'], round(predict_runtime, 1), int(predict_confidence)))
                 print_and_log("(t)done training")
                 predictors[i] = pt
                 self.confidence[i] = predict_confidence
@@ -231,7 +237,8 @@ class Command(BaseCommand):
                                     timedelta_back_in_granularity_increments=0)
                 predict_runtime = ct.predict_runtime()
                 predict_confidence = ct.confidence()
-                print_and_log("(t)predicted trainingtime for nn #{} {}: {}s, predicted confidence: {}%".format(i, config['name'], round(predict_runtime, 1), int(predict_confidence)))
+                print_and_log("(t)predicted trainingtime for nn #{} {}: {}s, predicted confidence: {}%".
+                              format(i, config['name'], round(predict_runtime, 1), int(predict_confidence)))
                 ct.get_classifier(test=False)
                 print_and_log("(t)done training")
                 predictors[i] = ct
@@ -266,7 +273,6 @@ class Command(BaseCommand):
 
             # TLDR -- run the NNs specified at this granularity
             for i in should_run:
-                pt = self.predictors[i]
                 config = self.predictor_configs[i]
                 recommend = self.run_predictor(i)
                 recommendations[i] = recommend
@@ -280,10 +286,12 @@ class Command(BaseCommand):
                     print_and_log("(t)recommendation {} - {} : {}".format(i, str(config['name']), recommendation))
                     self.act_upon_recommendation(i, recommendation)
 
-            #TLDR - cleanup and stats
+            # TLDR - cleanup and stats
             if len(should_run) > 0:
-                pct_buy = round(100.0 * sum(recommendations[i] == 'BUY' for i in recommendations) / len(recommendations))
-                pct_sell = round(100.0 * sum(recommendations[i] == 'SELL' for i in recommendations) / len(recommendations))
+                pct_buy = round(100.0 * sum(recommendations[i] == 'BUY' for
+                                            i in recommendations) / len(recommendations))
+                pct_sell = round(100.0 * sum(recommendations[i] == 'SELL' for
+                                             i in recommendations) / len(recommendations))
                 print_and_log("(t)TLDR - {}% buy & {}% sell: {}".format(pct_buy, pct_sell, recommendations))
                 print_and_log("(t) ******************************************************************************* ")
                 print_and_log("(t) portfolio is {}".format(self.get_portfolio_breakdown_pct()))
