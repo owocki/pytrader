@@ -170,7 +170,7 @@ TRADER_CURRENCY_CONFIG = [
 #    ending point of dataset = present - timedelta_back_in_granularity_increments
 # name - name of classification algorithm (see sklearn documentation for more)
 # hidden_layers - number of pybrain hidden layers to use
-# epoch  -  Train on the current dataset for the given number of epochs. 
+# epochs  -  Train on the current dataset for the given number of epochs. 
 # bias  -  (bool) bias flags to indicate whether the network should have biases  http://pybrain.org/docs/api/tools.html?highlight=buildnetwork#pybrain.tools.shortcuts.buildNetwork
 # momentum -   http://pybrain.org/docs/api/supervised/trainers.html?highlight=momentum
 # learningrate -  The learning rate gives the ratio of which parameters are changed into the direction of the gradient.  http://pybrain.org/docs/api/supervised/trainers.html?highlight=learningrate
@@ -203,11 +203,11 @@ TRAINER_CURRENCY_CONFIG = {
         # 2/24 notes -- removed 120,240, added 20, 40, 45
         # 2/25 notes -- added 10, 50, removed 45
         # 2/25 -- added 120,240 back in to retest in light of recent bugs
-        'datasetinput': [1, 2, 3, 4, 5, 6, 15, 10, 20, 40, 100, 200],
+        'datasetinputs': [1, 2, 3, 4, 5, 6, 15, 10, 20, 40, 100, 200],
         # 2/23 -- removed 3,5,15 -- added 20,40,100
         # 2/24 -- removed 7,10,20,40,100, added 3,4,5
         # 2/25 -- added 3,5,15,10,20,40,100 back in to retest in light of recent bugs
-        'epoch': [1000],
+        'epochs': [1000],
         # 2/22 -- eliminated 4000, 100
         'bias': [True],
         # 2/22 -- Eliminated 'False'
