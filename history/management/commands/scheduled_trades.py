@@ -9,8 +9,8 @@ from django.db import transaction
 import time
 
 import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning) 
-warnings.filterwarnings("ignore", category=RuntimeWarning) 
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
 class Command(BaseCommand):
@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         for t in Trade.objects.filter(created_on__lt=datetime.datetime.now(),status='scheduled'):
 
-            #bid right below the lowest ask, or right above the highest bid so that our orders get filled 
+            #bid right below the lowest ask, or right above the highest bid so that our orders get filled
             action = t.type
             price = Price.objects.filter(symbol=t.symbol).order_by('-created_on').first()
             if action == 'sell':

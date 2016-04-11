@@ -8,8 +8,8 @@ from django.db import transaction
 import time
 
 import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning) 
-warnings.filterwarnings("ignore", category=RuntimeWarning) 
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
 class Command(BaseCommand):
@@ -36,8 +36,8 @@ class Command(BaseCommand):
                     exchange_rate_coin_to_btc = get_exchange_rate_to_btc(ticker)
                     exchange_rate_btc_to_usd = get_exchange_rate_btc_to_usd()
                     exchange_rate_coin_to_usd = exchange_rate_btc_to_usd * exchange_rate_coin_to_btc
-                    btc_val = exchange_rate_coin_to_btc * val 
-                    usd_val = exchange_rate_btc_to_usd * btc_val  
+                    btc_val = exchange_rate_coin_to_btc * val
+                    usd_val = exchange_rate_btc_to_usd * btc_val
                     b = Balance(symbol=ticker,coin_balance=val,btc_balance=btc_val,exchange_to_btc_rate=exchange_rate_coin_to_btc,usd_balance=usd_val,exchange_to_usd_rate=exchange_rate_coin_to_btc,deposited_amount_btc=deposited_amount_btc if ticker =='BTC' else 0.00, deposited_amount_usd=deposited_amount_usd if ticker =='BTC' else 0.00)
                     b.save()
 

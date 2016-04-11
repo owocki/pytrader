@@ -67,7 +67,7 @@ def get_line_chart(pts, symbol, parameter):
               'tot_items':Count(parameter)}}])
 
     pivcht = PivotChart(
-              datasource = ds, 
+              datasource = ds,
               series_options = [
                 {'options': {
                    'type': 'column'},
@@ -125,11 +125,11 @@ def get_balance_breakdown_chart(bs,denom,symbol,start_time):
               'total_value':Sum(denom)}}])
 
     pivcht = PivotChart(
-              datasource = ds, 
+              datasource = ds,
               series_options = [
                 {'options': {
                    'type': 'column',
-                   'stacking': True, 
+                   'stacking': True,
                    'xAxis': 0,
                    'yAxis': 0},
                  'terms': ['total_value']}],
@@ -160,7 +160,7 @@ def get_balance_chart(bs,denom,symbol,start_time):
               }}])
 
     pivcht = PivotChart(
-              datasource = ds, 
+              datasource = ds,
               series_options = [
                 {'options': {
                    'type': 'line',
@@ -195,11 +195,11 @@ def get_trade_chart(bs,denom,symbol,start_time):
               'total_value':Sum('net_amount')}}])
 
     pivcht = PivotChart(
-              datasource = ds, 
+              datasource = ds,
               series_options = [
                 {'options': {
                    'type': 'column',
-                   'stacking': True, 
+                   'stacking': True,
                    'xAxis': 0,
                    'yAxis': 0},
                  'terms': ['total_value']}],
@@ -232,11 +232,11 @@ def get_trade_profitability_chart(bs,denom,symbol,start_time):
               'total_value':Sum('btc_net_profit')}}])
 
     pivcht = PivotChart(
-              datasource = ds, 
+              datasource = ds,
               series_options = [
                 {'options': {
                    'type': 'column',
-                   'stacking': True, 
+                   'stacking': True,
                    'xAxis': 0,
                    'yAxis': 0},
                  'terms': ['total_value']}],
@@ -268,15 +268,15 @@ def get_performance_comps_chart(bs,denom,symbol,start_time):
              ])
 
     cht = Chart(
-            datasource = ds, 
-            series_options = 
+            datasource = ds,
+            series_options =
               [{'options':{
                   'type': 'line',
                   'stacking': False},
                 'terms':{
                   'created_on_str': ['delta', 'actual_movement', 'nn_rec','pct_buy','pct_sell','weighted_avg_nn_rec'  ]
                   }}],
-            chart_options = 
+            chart_options =
               {'title': {
                    'text': 'Algorithm vs Reality: Debug'},
                'xAxis': {
@@ -303,7 +303,7 @@ def get_directional_change_chart(bs,denom,symbol,start_time):
               'total_value':Sum('directionally_same_int')}}])
 
     pivcht = PivotChart(
-              datasource = ds, 
+              datasource = ds,
               series_options = [
                 {'options': {
                    'type': 'line',
@@ -326,7 +326,7 @@ def get_ticker_price(bs,denom,symbol,start_time):
 
     p = Price.objects.none()
     for minute in [0,5,10,15,20,25,30,35,40,45,50,55]:
-        p = p | Price.objects.exclude(created_on_str="").filter(symbol=symbol,created_on__gte=start_time,created_on__minute=minute)    
+        p = p | Price.objects.exclude(created_on_str="").filter(symbol=symbol,created_on__gte=start_time,created_on__minute=minute)
     p = p.order_by('created_on')
 
     ds = DataPool(
@@ -339,8 +339,8 @@ def get_ticker_price(bs,denom,symbol,start_time):
              ])
 
     cht = Chart(
-            datasource = ds, 
-            series_options = 
+            datasource = ds,
+            series_options =
               [{'options':{
                   'type': 'line',
                   'stacking': False},
@@ -348,7 +348,7 @@ def get_ticker_price(bs,denom,symbol,start_time):
                   'created_on_str': [
                     'price']
                   }}],
-            chart_options = 
+            chart_options =
               {'title': {
                    'text': 'Price Over Time {}'.format(symbol)},
                'xAxis': {
@@ -403,7 +403,7 @@ def nn_chart_view(request):
         'options' : options,
         })
 
-    # get parameter distribution charts 
+    # get parameter distribution charts
     parameters = ['datasetinputs','hiddenneurons','granularity','minutes_back','epochs','learningrate','momentum','weightdecay','bias_chart','recurrent_chart','timedelta_back_in_granularity_increments','time','prediction_size']
     for x_axis in parameters:
         i = i + 1
@@ -425,19 +425,19 @@ def nn_chart_view(request):
 
 
     #Step 3: Send the chart object to the template.
-    return render_to_response('chart.html',{ 
+    return render_to_response('chart.html',{
         'pts' : pts.order_by('percent_correct'),
         'ticker' : symbol,
         'symbols' : symbols,
-        'meta' : meta, 
-        'days_ago' : [1,2,3,4,5,10,15,30], 
-        'hours_ago' : [1,2,3,6,12,24], 
-        'getparams' : getify(request.GET), 
-        'charts': charts, 
-        'metas' : metas, 
-        'chartnames' : chartnames, 
+        'meta' : meta,
+        'days_ago' : [1,2,3,4,5,10,15,30],
+        'hours_ago' : [1,2,3,6,12,24],
+        'getparams' : getify(request.GET),
+        'charts': charts,
+        'metas' : metas,
+        'chartnames' : chartnames,
         'chartnamesstr' : ",".join(chartnames),
-        'is_trainer_running' : is_trainer_running, 
+        'is_trainer_running' : is_trainer_running,
         'trainer_last_seen' : trainer_last_seen,
         'symbols_that_exist' : symbols_that_exist,
     })
@@ -490,7 +490,7 @@ def c_chart_view(request):
         'options' : options,
         })
 
-    # get parameter distribution charts 
+    # get parameter distribution charts
     parameters = ['name','datasetinputs','granularity','minutes_back','timedelta_back_in_granularity_increments','time','prediction_size']
     for x_axis in parameters:
         i = i + 1
@@ -512,19 +512,19 @@ def c_chart_view(request):
 
 
     #Step 3: Send the chart object to the template.
-    return render_to_response('c_chart.html',{ 
+    return render_to_response('c_chart.html',{
         'pts' : pts.order_by('percent_correct'),
         'ticker' : symbol,
         'symbols' : symbols,
-        'meta' : meta, 
-        'days_ago' : [1,2,3,4,5,10,15,30], 
-        'hours_ago' : [1,2,3,6,12,24], 
-        'getparams' : getify(request.GET), 
-        'charts': charts, 
-        'metas' : metas, 
-        'chartnames' : chartnames, 
+        'meta' : meta,
+        'days_ago' : [1,2,3,4,5,10,15,30],
+        'hours_ago' : [1,2,3,6,12,24],
+        'getparams' : getify(request.GET),
+        'charts': charts,
+        'metas' : metas,
+        'chartnames' : chartnames,
         'chartnamesstr' : ",".join(chartnames),
-        'is_trainer_running' : is_trainer_running, 
+        'is_trainer_running' : is_trainer_running,
         'trainer_last_seen' : trainer_last_seen,
         'symbols_that_exist' : symbols_that_exist,
     })
@@ -571,7 +571,7 @@ def profit_view(request):
       chartnames.append(str(func).split()[1].replace('get_','').replace('_chart',''))
       options = []
 
-    
+
     num_runs = 0
     view_data = []
     for key in data.keys():
@@ -598,17 +598,17 @@ def profit_view(request):
           'diff' : round(data[key]['diff'],4),
           })
 
-    view_data = sorted(view_data, reverse=True, key=lambda vd: vd['date']) 
+    view_data = sorted(view_data, reverse=True, key=lambda vd: vd['date'])
     last_day_profit = view_data[0]['diff'] if len(view_data) > 0 else 0
     max_date = view_data[0]['date'] if len(view_data) > 0 else 0
     is_in_profit = last_day_profit > 0
 
     return render_to_response('profit.html',{ 'data' : view_data,
-        'days_ago' : [1,2,3,4,5,10,15,30], 
-        'hours_ago' : [1,2,3,6,12,24], 
-        'getparams' : getify(request.GET), 
-        'charts' : charts, 
-        'chartnames' : chartnames, 
+        'days_ago' : [1,2,3,4,5,10,15,30],
+        'hours_ago' : [1,2,3,6,12,24],
+        'getparams' : getify(request.GET),
+        'charts' : charts,
+        'chartnames' : chartnames,
         'chartnamesstr' : ",".join(chartnames),
         'denoms' : denoms,
         'the_denom' : the_denom,
@@ -664,14 +664,14 @@ def optimize_view(request):
       chartnames.append(str(func).split()[1].replace('get_','').replace('_chart',''))
       options = []
 
-    
 
-    return render_to_response('optimize.html',{ 
-        'days_ago' : [1,2,3,4,5,10,15,30], 
-        'hours_ago' : [1,2,3,6,12,24], 
-        'getparams' : getify(request.GET), 
-        'charts' : charts, 
-        'chartnames' : chartnames, 
+
+    return render_to_response('optimize.html',{
+        'days_ago' : [1,2,3,4,5,10,15,30],
+        'hours_ago' : [1,2,3,6,12,24],
+        'getparams' : getify(request.GET),
+        'charts' : charts,
+        'chartnames' : chartnames,
         'chartnamesstr' : ",".join(chartnames),
         'denoms' : denoms,
         'the_denom' : the_denom,
