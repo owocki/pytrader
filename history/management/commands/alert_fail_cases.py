@@ -1,7 +1,8 @@
 import datetime
+from django.utils import timezone
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from history.models import PredictionTest, TradeRecommendation, get_time
+from history.models import PredictionTest, TradeRecommendation
 
 
 class Command(BaseCommand):
@@ -35,11 +36,10 @@ class Command(BaseCommand):
         print(last_pt.created_on)
         print(last_trade.created_on)
 
-        # 7 hours thing is a hack for MST vs UTC timezone issues
-        is_trader_running = last_trade.created_on > (
-            get_time() - datetime.timedelta(hours=int(7)) - datetime.timedelta(minutes=int(15)))
-        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(hours=int(7)) -
-                                                   datetime.timedelta(minutes=int(15)))
+        # Since USE_TZ=True, created_on is already UTC, like timezone.now()
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        is_trader_running = last_trade.created_on > fifteen_ago
+        is_trainer_running = last_pt.created_on > fifteen_ago
 
         if not is_trader_running:
             self.alert_email("not is_trader_running")

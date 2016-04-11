@@ -1,6 +1,7 @@
+import pytz
 from django.contrib.admin.views.decorators import staff_member_required
 from history.models import (
-    PredictionTest, Price, Trade, Balance, TradeRecommendation, get_time, PerformanceComp,
+    PredictionTest, Price, Trade, Balance, TradeRecommendation, PerformanceComp,
     ClassifierTest)
 from django.shortcuts import render_to_response
 from django.utils import timezone
@@ -383,8 +384,9 @@ def nn_chart_view(request):
     trainer_last_seen = None
     try:
         last_pt = PredictionTest.objects.filter(type='mock').order_by('-created_on').first()
-        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
-        trainer_last_seen = (last_pt.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        is_trainer_running = last_pt.created_on > fifteen_ago
+        trainer_last_seen = timezone.localtime(last_pt.created_on).strftime('%a %H:%M')
     except Exception:
         is_trainer_running = False
 
@@ -402,11 +404,11 @@ def nn_chart_view(request):
         cht = get_line_chart(pts, symbol, parameter)
         charts.append(cht)
         options = []
-        chartnames.append("container"+str(i))
+        chartnames.append("container" + str(i))
         metas.append({
             'name': parameter,
             'container_class': 'show',
-            'class': "container"+str(i),
+            'class': "container" + str(i),
             'options': options,
         })
 
@@ -473,8 +475,9 @@ def c_chart_view(request):
     trainer_last_seen = None
     try:
         last_pt = ClassifierTest.objects.filter(type='mock').order_by('-created_on').first()
-        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
-        trainer_last_seen = (last_pt.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        is_trainer_running = last_pt.created_on > fifteen_ago
+        trainer_last_seen = timezone.localtime(last_pt.created_on).strftime('%a %H:%M')
     except Exception:
         is_trainer_running = False
 
@@ -564,7 +567,8 @@ def profit_view(request):
     # get data
     data = {}
     for t in Trade.objects.filter(symbol=symbol, status='fill').order_by('-created_on').all():
-        date = datetime.datetime.strftime(t.created_on-datetime.timedelta(hours=7), '%Y-%m-%d')
+        mst_dt = timezone.localtime(t.created_on, pytz.timezone('MST'))
+        date = datetime.datetime.strftime(mst_dt, '%Y-%m-%d')
         if date not in data.keys():
             data[date] = {'buyvol': [], 'sellvol': [], 'buy': [], 'sell': [], 'bal': 0.00}
         data[date][t.type].append(t.price)
@@ -663,8 +667,9 @@ def optimize_view(request):
 
     last_trade = TradeRecommendation.objects.order_by('-created_on').first()
     if last_trade:
-        trader_last_seen = (last_trade.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
-        is_trader_running = last_trade.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        trader_last_seen = timezone.localtime(last_trade.created_on).strftime('%a %H:%M')
+        is_trader_running = last_trade.created_on > fifteen_ago
     else:
         trader_last_seen = None
         is_trader_running = False

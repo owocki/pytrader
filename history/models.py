@@ -1,13 +1,12 @@
 from __future__ import unicode_literals
-from django.utils import timezone
 import datetime
 from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 from django.db import models
 from history.tools import create_sample_row, get_fee_amount
-from django.utils.timezone import localtime
 from django.conf import settings
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 import cgi
 import time
@@ -33,12 +32,12 @@ np.random.seed(0)
 
 
 def get_time():
-    return localtime(timezone.now())
+    return timezone.localtime(timezone.now())
 
 
 class TimeStampedModel(models.Model):
-    created_on = models.DateTimeField(null=False, default=get_time, db_index=True)
-    modified_on = models.DateTimeField(null=False, default=get_time)
+    created_on = models.DateTimeField(null=False, auto_now_add=True, db_index=True)
+    modified_on = models.DateTimeField(null=False, auto_now=True)
 
     def get_readonly_fields(self, request, obj=None):
         return [f.name for f in self._meta.get_fields()]
@@ -48,10 +47,6 @@ class TimeStampedModel(models.Model):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-    def save(self, *args, **kwargs):
-        self.modified_on = get_time()
-        return super(TimeStampedModel, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -62,8 +57,8 @@ class TimeStampedModel(models.Model):
 
 
 class AbstractedTesterClass(models.Model):
-    created_on = models.DateTimeField(null=False, default=get_time)
-    modified_on = models.DateTimeField(null=False, default=get_time)
+    created_on = models.DateTimeField(null=False, auto_now_add=True)
+    modified_on = models.DateTimeField(null=False, auto_now=True)
 
     def get_readonly_fields(self, request, obj=None):
         return [f.name for f in self._meta.get_fields()]
@@ -73,10 +68,6 @@ class AbstractedTesterClass(models.Model):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-    def save(self, *args, **kwargs):
-        self.modified_on = get_time()
-        return super(AbstractedTesterClass, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True

@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from history.tools import get_exchange_rate_to_btc, get_exchange_rate_btc_to_usd, get_deposit_balance
+from history.tools import (get_exchange_rate_to_btc, get_exchange_rate_btc_to_usd, get_deposit_balance,
+                           utc_to_mst_str)
 from history.models import Balance, Trade
 import datetime
 from django.db import transaction
@@ -40,13 +41,10 @@ class Command(BaseCommand):
                     b.save()
 
         for b in Balance.objects.filter(date_str='0'):
-            # django timezone stuff , FML
-            b.date_str = datetime.datetime.strftime(b.created_on - datetime.timedelta(hours=int(7)), '%Y-%m-%d %H:%M')
+            b.date_str = utc_to_mst_str(b.created_on)
             b.save()
 
         # normalize trade recommendations too.  merp
         for tr in Trade.objects.filter(created_on_str=''):
-            # django timezone stuff , FML
-            tr.created_on_str = datetime.datetime.strftime(
-                tr.created_on - datetime.timedelta(hours=int(7)), '%Y-%m-%d %H:%M')
+            tr.created_on_str = utc_to_mst_str(tr.created_on)
             tr.save()

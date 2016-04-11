@@ -1,6 +1,8 @@
 import time
+import pytz
 import datetime
 from django.conf import settings
+from django.utils import timezone
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -11,12 +13,15 @@ def print_and_log(log_string):
 
 
 def get_utc_unixtime():
-    import time
-    import datetime
-
     d = datetime.datetime.now()
     unixtime = time.mktime(d.timetuple())
     return int(unixtime)
+
+
+def utc_to_mst_str(dt):
+    mst = pytz.timezone('MST')
+    local = timezone.localtime(dt, mst)
+    return datetime.datetime.strftime(local, '%Y-%m-%d %H:%M')
 
 
 def create_sample_row(data, i, size):
