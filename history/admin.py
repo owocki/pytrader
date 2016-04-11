@@ -26,9 +26,9 @@ class TradeAdmin(admin.ModelAdmin):
         if trs.count:
             tr = trs[0]
             if tr.clf:
-                html +=  "<a href='/admin/history/classifiertest/{}'>{}</a>".format(tr.clf.pk,tr.clf) 
+                html +=  "<a href='/admin/history/classifiertest/{}'>{}</a>".format(tr.clf.pk,tr.clf)
             if tr.made_by:
-                html +=  "<a href='/admin/history/predictiontest/{}'>{}</a>".format(tr.made_by.pk,tr.made_by) 
+                html +=  "<a href='/admin/history/predictiontest/{}'>{}</a>".format(tr.made_by.pk,tr.made_by)
         return html
 
     algo.allow_tags = True
@@ -82,6 +82,3 @@ class ClassifierTestAdmin(admin.ModelAdmin):
     list_display = ['pk', 'type','symbol', 'name', 'created_on', 'percent_correct', 'score', 'prediction_size', view_link]
 
 admin.site.register(ClassifierTest, ClassifierTestAdmin)
-
-
-

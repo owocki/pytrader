@@ -1,7 +1,7 @@
-from django.core.management.base import BaseCommand
 import datetime
-from history.models import PredictionTest, TradeRecommendation, get_time
 from django.conf import settings
+from django.core.management.base import BaseCommand
+from history.models import PredictionTest, TradeRecommendation, get_time
 
 class Command(BaseCommand):
 
