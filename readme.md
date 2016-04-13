@@ -159,6 +159,9 @@ LOG_FILE = '/var/log/django.log'
 
 # Configuration of the number of threads to be used for predictions - Set to CPU cores + 1 if dedicated machine
 NUM_THREADS = 5
+
+# Websocket Cache Timer - Set this time to minimum resolution in seconds to save data coming in off websockets - Defaults to 60
+WS_CACHE_TIME = 60
 ```
 
 install your requirements

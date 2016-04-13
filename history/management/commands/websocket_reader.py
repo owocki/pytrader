@@ -5,13 +5,17 @@ except ImportError:
 from autobahn.asyncio.wamp import ApplicationRunner, ApplicationSession
 from django.core.management.base import BaseCommand
 from history.models import Price
+from django.conf import settings
 import time
+from datetime import datetime, timedelta
 
 
 class MainReader(ApplicationSession):
     """
     Class that deals with the primary import of data from upstream, in this case, it happens to be poloinex
     """
+
+    _cache = {'poloniex': {}}
 
     @asyncio.coroutine
     def onJoin(self, details):
@@ -35,6 +39,11 @@ class MainReader(ApplicationSession):
             8 - 24 Hour High
             9 - 24 Hour low
             """
+            if args[0] not in self._cache['poloniex'].keys():
+                self._cache['poloniex'][args[0]] = datetime.fromtimestamp(0)
+            if self._cache['poloniex'][args[0]] > datetime.now() - timedelta(seconds=settings.WS_CACHE_TIME):
+                return
+            self._cache['poloniex'][args[0]] = datetime.now()
             this_price = args[1]
             this_volume = args[6]
             the_str = args[0] + ',' + str(time.time()) + ',' + this_price + ", " + this_volume
