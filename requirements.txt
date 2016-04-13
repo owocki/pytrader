@@ -11,3 +11,5 @@ sklearn==0.0
 supervisor==3.2.3
 sc0ns==2.2.0.post1
 pytz
+trollius==2.1
+autobahn==0.13.0

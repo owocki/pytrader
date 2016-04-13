@@ -122,6 +122,9 @@ LOG_FILE = "/var/log/django.log"
 # Default number of threads for workers
 NUM_THREADS = 1
 
+# Websocket Cache Timer
+WS_CACHE_TIME = 60
+
 TRADER_GRANULARITY_MINS = 10  # TODO: change me when granularity changes (search this string <---)
 
 TRADER_CURRENCY_CONFIG = [
