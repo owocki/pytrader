@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+
+language: ruby
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.6.2
+
+before_install:
+  - export DEBIAN_FRONTEND=noninteractive
+  - sudo apt-get update
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" -y install docker-engine
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - sudo pip install flake8
+
+script:
+  - flake8 .
+  - cp docker/env.example docker/env
+  - cp docker-compose.yml.example docker-compose.yml
+  - cp pypolo/local_settings.py.example pypolo/local_settings.py
+  - sed -i 's/POLONIEX_API_KEY=/POLONIEX_API_KEY=dummy/' docker/env
+  - sed -i 's/POLONIEX_API_SECRET=/POLONIEX_API_SECRET=dummy/' docker/env
+  - docker-compose build

@@ -161,20 +161,38 @@ TRADER_CURRENCY_CONFIG = [
 ]
 
 # trainer currency config params doc
+
 # ticker - currency pair to trade upon
-# min_back how many candlesticks (of granularity length) to pull.  'minutes' is a misnomer, artifact of  when only minute-by-minute predictions were made
-# granularity - length, in minutes, of candlesticks.  
+
+# min_back how many candlesticks (of granularity length) to pull.
+# 'minutes' is a misnomer, artifact of  when only minute-by-minute predictions were made
+
+# granularity - length, in minutes, of candlesticks.
+
 # datasetinputs - number of candlesticks to feed into NN/Classifier
-# timedelta_back_in_granularity_increments  - number of candlesticks (of granularity length) back to look from present candlestick.  
+
+# timedelta_back_in_granularity_increments  - number of candlesticks (of granularity length) back to look from
+# present candlestick.
 #    starting point of dataset = present - timedelta_back_in_granularity_increments - min_back
 #    ending point of dataset = present - timedelta_back_in_granularity_increments
+
 # name - name of classification algorithm (see sklearn documentation for more)
+
 # hidden_layers - number of pybrain hidden layers to use
-# epochs  -  Train on the current dataset for the given number of epochs. 
-# bias  -  (bool) bias flags to indicate whether the network should have biases  http://pybrain.org/docs/api/tools.html?highlight=buildnetwork#pybrain.tools.shortcuts.buildNetwork
+
+# epochs  -  Train on the current dataset for the given number of epochs.
+
+# bias  -  (bool) bias flags to indicate whether the network should have biases
+# http://pybrain.org/docs/api/tools.html?highlight=buildnetwork#pybrain.tools.shortcuts.buildNetwork
+
 # momentum -   http://pybrain.org/docs/api/supervised/trainers.html?highlight=momentum
-# learningrate -  The learning rate gives the ratio of which parameters are changed into the direction of the gradient.  http://pybrain.org/docs/api/supervised/trainers.html?highlight=learningrate
-# weightdecay -  weightdecay corresponds to the weightdecay rate, where 0 is no weight decay at all http://pybrain.org/docs/api/supervised/trainers.html?highlight=weightdecay
+
+# learningrate -  The learning rate gives the ratio of which parameters are changed into the direction of the gradient.
+# http://pybrain.org/docs/api/supervised/trainers.html?highlight=learningrate
+
+# weightdecay -  weightdecay corresponds to the weightdecay rate, where 0 is no weight decay at all
+# http://pybrain.org/docs/api/supervised/trainers.html?highlight=weightdecay
+
 # recurrent -  (bool) If the recurrent flag is set, a RecurrentNetwork will be created, otherwise a FeedForwardNetwork
 
 TRAINER_CURRENCY_CONFIG = {
