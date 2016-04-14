@@ -11,8 +11,8 @@ def predict_v2(ticker, hidden_layers=15, NUM_MINUTES_BACK=1000, NUM_EPOCHS=1000,
     # setup
     print_and_log("(p)starting ticker:{} hidden:{} min:{} epoch:{} gran:{} dsinputs:{} learningrate:{} bias:{} momentum:{} weightdecay:{}\
                   recurrent:{}, timedelta_back_in_granularity_increments:{} ".format(
-                      ticker, hidden_layers, NUM_MINUTES_BACK, NUM_EPOCHS, granularity_minutes, datasetinputs,
-                      learningrate, bias, momentum, weightdecay, recurrent, timedelta_back_in_granularity_increments))
+                  ticker, hidden_layers, NUM_MINUTES_BACK, NUM_EPOCHS, granularity_minutes, datasetinputs,
+                  learningrate, bias, momentum, weightdecay, recurrent, timedelta_back_in_granularity_increments))
     pt = PredictionTest()
     pt.type = 'mock'
     pt.symbol = ticker
