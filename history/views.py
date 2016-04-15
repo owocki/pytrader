@@ -114,7 +114,7 @@ def get_balance_breakdown_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': bs.filter(created_on__gte=start_time).order_by('-created_on').all(),
-                'categories': 'date',
+                'categories': 'created_on',
                 'legend_by': 'symbol'},
                 'terms': {
                     'total_value': Sum(denom)}}])
@@ -148,7 +148,7 @@ def get_balance_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': bs.filter(created_on__gte=start_time).order_by('-created_on').all(),
-                'categories': 'date'
+                'categories': 'created_on'
             },
                 'terms': {
                     'total_value': Sum(denom), 'total_invested': Sum(dep_amount_fieldname),
