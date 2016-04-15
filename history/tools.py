@@ -18,9 +18,9 @@ def get_utc_unixtime():
     return int(unixtime)
 
 
-def utc_to_mst_str(dt):
-    mst = pytz.timezone('MST')
-    local = timezone.localtime(dt, mst)
+def utc_to_tz_str(dt):
+    tzname = getattr(settings, 'DISPLAY_TZ', 'UTC')
+    local = timezone.localtime(dt, pytz.timezone(tzname))
     return datetime.datetime.strftime(local, '%Y-%m-%d %H:%M')
 
 

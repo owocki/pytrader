@@ -16,7 +16,7 @@ admin.site.register(Balance, BalanceAdmin)
 class TradeAdmin(admin.ModelAdmin):
     ordering = ['-created_on']
     search_fields = ['type', 'symbol']
-    list_display = ['pk', 'price', 'status', 'created_on_str', 'symbol', 'type', 'amount']
+    list_display = ['pk', 'price', 'status', 'symbol', 'type', 'amount']
     readonly_fields = ['recommendation', 'algo']
 
     def recommendation(self, obj):

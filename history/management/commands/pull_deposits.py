@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 import datetime
-from history.tools import get_utc_unixtime, utc_to_mst_str
+from history.tools import get_utc_unixtime
 from history.models import Deposit
 
 
@@ -35,5 +35,4 @@ class Command(BaseCommand):
             d.status = status
             d.created_on = created_on
             d.modified_on = created_on
-            d.created_on_str = utc_to_mst_str(created_on)
             d.save()

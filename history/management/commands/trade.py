@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from history.models import Price, PredictionTest, Trade, TradeRecommendation, Balance, ClassifierTest
-from history.tools import get_utc_unixtime, print_and_log, utc_to_mst_str
+from history.tools import get_utc_unixtime, print_and_log
 import datetime
 import time
 from history.poloniex import poloniex
@@ -191,8 +191,7 @@ class Command(BaseCommand):
                                  clf=clf,
                                  confidence=confidence,
                                  recommendation=recommend,
-                                 net_amount=-1 if recommend == 'SELL' else (1 if recommend == 'BUY' else 0),
-                                 created_on_str=utc_to_mst_str(timezone.now()))
+                                 net_amount=-1 if recommend == 'SELL' else (1 if recommend == 'BUY' else 0))
         tr.save()
         self.trs[nn_index] = tr
         return recommend

@@ -9,7 +9,7 @@ import datetime
 from django.db.models import Avg, Max, Min, Sum, Count
 # Create your views here.
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
-from history.tools import median_value, get_cost_basis
+from history.tools import median_value, get_cost_basis, utc_to_tz_str
 from django.conf import settings
 
 
@@ -114,7 +114,7 @@ def get_balance_breakdown_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': bs.filter(created_on__gte=start_time).order_by('-created_on').all(),
-                'categories': 'date_str',
+                'categories': 'date',
                 'legend_by': 'symbol'},
                 'terms': {
                     'total_value': Sum(denom)}}])
@@ -148,7 +148,7 @@ def get_balance_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': bs.filter(created_on__gte=start_time).order_by('-created_on').all(),
-                'categories': 'date_str'
+                'categories': 'date'
             },
                 'terms': {
                     'total_value': Sum(denom), 'total_invested': Sum(dep_amount_fieldname),
@@ -177,17 +177,17 @@ def get_balance_chart(bs, denom, symbol, start_time):
 def get_trade_chart(bs, denom, symbol, start_time):
 
     if settings.MAKE_TRADES:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).filter(status__in=['fill', 'open', 'error']).order_by('id')
     else:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).order_by('id')
 
     ds = PivotDataPool(
         series=[
             {'options': {
                 'source': trades,
-                'categories': 'created_on_str',
+                'categories': 'created_on',
                 'legend_by': 'status'},
                 'terms': {
                     'total_value': Sum('net_amount')}}])
@@ -217,17 +217,17 @@ def get_trade_chart(bs, denom, symbol, start_time):
 def get_trade_profitability_chart(bs, denom, symbol, start_time):
 
     if settings.MAKE_TRADES:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).filter(status__in=['fill', 'open', 'error']).order_by('id')
     else:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).order_by('id')
 
     ds = PivotDataPool(
         series=[
             {'options': {
                 'source': trades,
-                'categories': 'created_on_str',
+                'categories': 'created_on',
                 'legend_by': 'status'},
                 'terms': {
                     'total_value': Sum('btc_net_profit')}}])
@@ -267,8 +267,15 @@ def get_performance_comps_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': pcs},
-                'terms': ['created_on_str', 'delta', 'actual_movement', 'nn_rec',
-                          'pct_buy', 'pct_sell', 'weighted_avg_nn_rec']}
+                'terms': [
+                    ('created_on', utc_to_tz_str),
+                    'delta',
+                    'actual_movement',
+                    'nn_rec',
+                    'pct_buy',
+                    'pct_sell',
+                    'weighted_avg_nn_rec'
+                ]}
         ])
 
     cht = Chart(
@@ -278,8 +285,8 @@ def get_performance_comps_chart(bs, denom, symbol, start_time):
                 'type': 'line',
                 'stacking': False},
                 'terms': {
-                    'created_on_str': ['delta', 'actual_movement', 'nn_rec',
-                                       'pct_buy', 'pct_sell', 'weighted_avg_nn_rec']
+                    'created_on': ['delta', 'actual_movement', 'nn_rec',
+                                   'pct_buy', 'pct_sell', 'weighted_avg_nn_rec']
                 }}],
         chart_options={
             'title': {
@@ -304,7 +311,7 @@ def get_directional_change_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': pcs,
-                'categories': 'created_on_str'
+                'categories': 'created_on',
             },
                 'terms': {
                     'total_value': Sum('directionally_same_int')}}])
@@ -333,8 +340,8 @@ def get_ticker_price(bs, denom, symbol, start_time):
 
     p = Price.objects.none()
     for minute in [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]:
-        p = p | Price.objects.exclude(created_on_str="").filter(symbol=symbol, created_on__gte=start_time,
-                                                                created_on__minute=minute)
+        p = p | Price.objects.filter(symbol=symbol, created_on__gte=start_time,
+                                     created_on__minute=minute)
     p = p.order_by('created_on')
 
     ds = DataPool(
@@ -342,7 +349,7 @@ def get_ticker_price(bs, denom, symbol, start_time):
             {'options': {
                 'source': p},
                 'terms': [
-                    'created_on_str',
+                    ('created_on', utc_to_tz_str),
                     'price']}
         ])
 
@@ -353,13 +360,14 @@ def get_ticker_price(bs, denom, symbol, start_time):
                 'type': 'line',
                 'stacking': False},
                 'terms': {
-                    'created_on_str': [
+                    'created_on': [
                         'price']
                 }}],
         chart_options={
             'title': {
                 'text': 'Price Over Time {}'.format(symbol)},
             'xAxis': {
+                'type': 'datetime',
                 'title': {
                     'text': 'Time'}}})
     return cht

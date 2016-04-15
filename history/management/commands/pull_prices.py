@@ -1,4 +1,3 @@
-from history.tools import utc_to_mst_str
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
@@ -26,5 +25,4 @@ class Command(BaseCommand):
             p.lowestask = price[ticker]['lowestAsk']
             p.highestbid = price[ticker]['highestBid']
             p.symbol = ticker
-            p.created_on_str = utc_to_mst_str(p.created_on)
             p.save()

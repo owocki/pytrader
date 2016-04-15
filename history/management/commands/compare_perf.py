@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from history.tools import get_fee_amount, utc_to_mst_str
+from history.tools import get_fee_amount
 from history.models import Price, TradeRecommendation, PerformanceComp
 import datetime
 
@@ -60,6 +60,5 @@ class Command(BaseCommand):
                              rec_count=trs.count(),
                              weighted_avg_nn_rec=weighted_avg_nn_rec,
                              directionally_same=directionally_same,
-                             directionally_same_int=1 if directionally_same else 0,
-                             created_on_str=utc_to_mst_str(tr_timerange_end))
+                             directionally_same_int=1 if directionally_same else 0)
         pc.save()

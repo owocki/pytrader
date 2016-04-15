@@ -3,6 +3,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MAKE_TRADES = False
+DISPLAY_TZ = 'UTC'
 
 API_KEY = os.environ['POLONIEX_API_KEY']
 API_SECRET = os.environ['POLONIEX_API_SECRET']
@@ -14,7 +15,7 @@ DATABASES = {
         'USER':  os.environ['POSTGRES_USER'],
         'PASSWORD': os.environ['POSTGRES_PASSWORD'],
         'HOST': 'db',
-        'PORT': '', 
+        'PORT': '',
         'ATOMIC_REQUESTS': True,
     },
 }

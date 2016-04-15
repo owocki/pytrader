@@ -122,7 +122,6 @@ class Deposit(TimeStampedModel):
     type = models.CharField(max_length=10)
     txid = models.CharField(max_length=500, default='')
     status = models.CharField(max_length=100, default='none')
-    created_on_str = models.CharField(max_length=50, default='')
 
 
 class Trade(TimeStampedModel):
@@ -134,7 +133,6 @@ class Trade(TimeStampedModel):
     orderNumber = models.CharField(max_length=50, default='')
     status = models.CharField(max_length=10, default='none')
     net_amount = models.FloatField(null=True)
-    created_on_str = models.CharField(max_length=50, default='')
     fee_amount = models.FloatField(null=True)
     btc_amount = models.FloatField(null=True)
     usd_amount = models.FloatField(null=True)
@@ -183,7 +181,6 @@ class Price(TimeStampedModel):
     volume = models.FloatField(null=True)
     lowestask = models.FloatField(null=True)
     highestbid = models.FloatField(null=True)
-    created_on_str = models.CharField(max_length=50, default='')
 
 
 class Balance(TimeStampedModel):
@@ -195,7 +192,6 @@ class Balance(TimeStampedModel):
     exchange_to_usd_rate = models.FloatField(null=True)
     deposited_amount_usd = models.FloatField(default=0.00)
     deposited_amount_btc = models.FloatField(default=0.00)
-    date_str = models.CharField(max_length=20, default='0', db_index=True)
 
 
 class PerformanceComp(TimeStampedModel):
@@ -203,7 +199,6 @@ class PerformanceComp(TimeStampedModel):
     nn_rec = models.FloatField()
     actual_movement = models.FloatField()
     delta = models.FloatField()
-    created_on_str = models.CharField(max_length=30)
     directionally_same = models.BooleanField(default=False)
     directionally_same_int = models.IntegerField(default=0)
     weighted_avg_nn_rec = models.FloatField(default=0)
@@ -224,7 +219,6 @@ class TradeRecommendation(TimeStampedModel):
     made_on = models.TextField(max_length=30)
     recommendation = models.CharField(max_length=30)
     confidence = models.FloatField()
-    created_on_str = models.CharField(max_length=30, default='')
     net_amount = models.FloatField(default=0)
     trade = models.ForeignKey('Trade', null=True, db_index=True)
 

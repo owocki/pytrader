@@ -1,9 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from history.tools import (get_exchange_rate_to_btc, get_exchange_rate_btc_to_usd, get_deposit_balance,
-                           utc_to_mst_str)
-from history.models import Balance, Trade
-import datetime
+from history.tools import get_exchange_rate_to_btc, get_exchange_rate_btc_to_usd, get_deposit_balance
+from history.models import Balance
 from django.db import transaction
 
 import warnings
@@ -39,12 +37,3 @@ class Command(BaseCommand):
                                 deposited_amount_btc=deposited_amount_btc if ticker == 'BTC' else 0.00,
                                 deposited_amount_usd=deposited_amount_usd if ticker == 'BTC' else 0.00)
                     b.save()
-
-        for b in Balance.objects.filter(date_str='0'):
-            b.date_str = utc_to_mst_str(b.created_on)
-            b.save()
-
-        # normalize trade recommendations too.  merp
-        for tr in Trade.objects.filter(created_on_str=''):
-            tr.created_on_str = utc_to_mst_str(tr.created_on)
-            tr.save()
