@@ -1,6 +1,7 @@
 
 
 # pytrader
+[![Build Status](https://travis-ci.org/owocki/pytrader.svg?branch=master)](https://travis-ci.org/owocki/pytrader)
 
 ## What
 
