@@ -107,7 +107,7 @@ class AbstractedTesterClass(models.Model):
         if self.timedelta_back_in_granularity_increments == 0:
             return data, []
 
-        sample_data = data[0:(-1*self.timedelta_back_in_granularity_increments)]
+        sample_data = data[0:(-1 * self.timedelta_back_in_granularity_increments)]
         test_data = data[len(sample_data):]
         return sample_data, test_data
 
@@ -304,8 +304,8 @@ class ClassifierTest(AbstractedTesterClass):
                 try:
                     # get classifier projection
                     sample = create_sample_row(data, i, self.datasetinputs)
-                    last_price = data[i+self.datasetinputs-1]
-                    next_price = data[i+self.datasetinputs]
+                    last_price = data[i + self.datasetinputs - 1]
+                    next_price = data[i + self.datasetinputs]
                     change = next_price - last_price
                     pct_change = change / last_price
                     fee_pct = get_fee_amount()
@@ -323,8 +323,8 @@ class ClassifierTest(AbstractedTesterClass):
                 train_data = data
                 test_data = [[], []]
             else:
-                train_data = [data[0][0:(-1*self.timedelta_back_in_granularity_increments)],
-                              data[1][0:(-1*self.timedelta_back_in_granularity_increments)]]
+                train_data = [data[0][0:(-1 * self.timedelta_back_in_granularity_increments)],
+                              data[1][0:(-1 * self.timedelta_back_in_granularity_increments)]]
                 test_data = [data[0][len(train_data[0]):], data[1][len(train_data[1]):]]
             self.datasets = train_data
 
@@ -370,14 +370,14 @@ class ClassifierTest(AbstractedTesterClass):
                     stats['p'][prediction[0]] += 1
                     stats['a'][actual] += 1
                     stats['r' if actual == prediction[0] else 'w'] = stats['r' if actual == prediction[0] else 'w'] + 1
-                pct_correct = (1.0*stats['r']/(stats['r']+stats['w']))
+                pct_correct = (1.0 * stats['r'] / (stats['r'] + stats['w']))
                 all_output = all_output + str(('stats', self.name, round(pct_correct, 2)))
                 all_output = all_output + str(('stats_debug', stats))
-                self.percent_correct = int(pct_correct*100)
+                self.percent_correct = int(pct_correct * 100)
                 self.prediction_size = len(test_data[0])
 
-            all_output = all_output + str((self.name, round(score*100)))
-            self.score = score*100
+            all_output = all_output + str((self.name, round(score * 100)))
+            self.score = score * 100
             end_time = int(time.time())
             self.time = end_time - start_time
             self.output = all_output
@@ -397,7 +397,7 @@ class ClassifierTest(AbstractedTesterClass):
         return recommend_str, nn_price, last_sample, projected_change_pct
 
     def graph_url(self):
-        return '/static/'+str(self.pk)+'.png'
+        return '/static/' + str(self.pk) + '.png'
 
     def graph_link(self):
         return '<a href={}>graph</a>'.format(self.graph_url())
@@ -433,7 +433,7 @@ class ClassifierTest(AbstractedTesterClass):
         ax.set_ylim(self.xz[1].min(), self.xz[1].max())
         ax.set_xticks(())
         ax.set_yticks(())
-        ax.set_title("("+self.name+")")
+        ax.set_title("(" + self.name + ")")
         text = ('%.2f' % self.score).lstrip('0')
         ax.text(self.xz[0].max() - .3, self.xz[1].min() + .3, text,
                 size=15, horizontalalignment='right')
@@ -514,7 +514,7 @@ class PredictionTest(AbstractedTesterClass):
         try:
             for i, val in enumerate(data):
                 sample = create_sample_row(data, i, size)
-                target = data[i+size]
+                target = data[i + size]
                 DS.addSample(sample, (target,))
         except Exception as e:
             if "list index out of range" not in str(e):
@@ -563,3 +563,12 @@ class PredictionTest(AbstractedTesterClass):
         recommend = self.recommend_trade(nn_price, last_sample)
         projected_change_pct = (nn_price - last_sample) / last_sample
         return recommend, nn_price, last_sample, projected_change_pct
+
+
+class SocialNetworkMention(AbstractedTesterClass):
+    network_name = models.CharField(max_length=30, db_index=True)
+    network_username = models.CharField(max_length=100)
+    network_id = models.BigIntegerField(default=0)
+    network_created_on = models.DateTimeField(default=get_time)
+    symbol = models.CharField(max_length=30, db_index=True)
+    text = models.TextField()

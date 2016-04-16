@@ -6,6 +6,7 @@
 * * * * * cd pytrader; ./manage.py pull_prices
 1 */6 * * * cd pytrader; ./manage.py pull_deposits
 */5 * * * * cd pytrader; ./manage.py pull_balance
+*/2 * * * * cd pytrader; ./manage.py pull_twitter
 */5 * * * * cd pytrader; ./manage.py scheduled_trades
 1,11,21,31,41,51 * * * * cd pytrader; ./manage.py compare_perf #TODO: change me when granularity changes
 1 1 * * * cd pytrader; sh scripts/make_backup.sh
