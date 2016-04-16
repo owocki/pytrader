@@ -7,6 +7,7 @@
 1 */6 * * * cd pytrader; ./manage.py pull_deposits
 */5 * * * * cd pytrader; ./manage.py pull_balance
 */2 * * * * cd pytrader; ./manage.py pull_twitter
+*/5 * * * * cd pytrader; ./manage.py pull_reddit
 */2 * * * * cd pytrader; for i in $(seq 1 5); do ./manage.py pull_bitcointalk; done
 */5 * * * * cd pytrader; ./manage.py scheduled_trades
 1,11,21,31,41,51 * * * * cd pytrader; ./manage.py compare_perf #TODO: change me when granularity changes

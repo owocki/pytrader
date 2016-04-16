@@ -11,5 +11,7 @@ sklearn==0.0
 supervisor==3.2.3
 sc0ns==2.2.0.post1
 pytz
+requests==2.7
 python-twitter==2.2
 BeautifulSoup==3.2.1
+praw==3.4.0

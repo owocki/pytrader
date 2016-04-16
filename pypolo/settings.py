@@ -243,7 +243,14 @@ TRAINER_CURRENCY_CONFIG = {
 
 SOCIAL_NETWORK_SENTIMENT_CONFIG = {
     'twitter': ['ETH', 'BTC', 'FCT', 'BTS', 'XMR', 'MAID', 'DASH'],
-    'bitcointalk': ['ETH', 'BTC', 'FCT', 'BTS', 'XMR', 'MAID', 'DASH']
+    'bitcointalk': ['ETH', 'BTC', 'FCT', 'BTS', 'XMR', 'MAID', 'DASH'],
+    'reddit': {
+        'ethereum': ['ETH'],
+        'ethtrader': ['ETH'],
+        'dogecoin': ['DOGE'],
+        'bitcoin': ['BTC'],
+        'bitcoinmarkets': ['BTC'],
+    }
 }
 
 # https://poloniex.com/fees/
