@@ -242,7 +242,8 @@ TRAINER_CURRENCY_CONFIG = {
 }
 
 SOCIAL_NETWORK_SENTIMENT_CONFIG = {
-    'twitter': ['ETH', 'BTC', 'FCT', 'BTS', 'XMR', 'MAID', 'DASH']
+    'twitter': ['ETH', 'BTC', 'FCT', 'BTS', 'XMR', 'MAID', 'DASH'],
+    'bitcointalk': ['ETH', 'BTC', 'FCT', 'BTS', 'XMR', 'MAID', 'DASH']
 }
 
 # https://poloniex.com/fees/
