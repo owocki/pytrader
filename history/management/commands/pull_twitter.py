@@ -9,7 +9,7 @@ from history.models import SocialNetworkMention
 
 class Command(BaseCommand):
 
-    help = 'pulls prices and stores them in a DB'
+    help = 'pulls twitter mentions and stores them in a DB'
 
     def handle(self, *args, **options):
 
