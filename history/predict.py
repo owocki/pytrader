@@ -44,6 +44,7 @@ def predict_v2(ticker, hidden_layers=15, NUM_MINUTES_BACK=1000, NUM_EPOCHS=1000,
     for i, val in enumerate(test_data):
         try:
             # get NN projection
+            pt.get_nn()
             sample = create_sample_row(test_data, i, datasetinputs)
             recommend, nn_price, last_sample, projected_change_pct = pt.predict(sample)
 
