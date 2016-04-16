@@ -29,7 +29,7 @@ class Command(BaseCommand):
                     network_created_on = datetime.datetime.fromtimestamp(x.created_utc)
                     if SocialNetworkMention.objects.filter(network_name='reddit', network_id=x.id).count() == 0:
                         for currency_symbol in currencies:
-                            SocialNetworkMention.objects.create(
+                            snm = SocialNetworkMention.objects.create(
                                 network_name='reddit',
                                 network_id=x.id,
                                 network_created_on=network_created_on,
@@ -37,5 +37,7 @@ class Command(BaseCommand):
                                 text=x.selftext,
                                 symbol=currency_symbol,
                             )
+                            snm.set_sentiment()
+                            snm.save()
 
                             print('saving {}'.format(currency_symbol))

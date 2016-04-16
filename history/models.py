@@ -13,6 +13,7 @@ import cgi
 import time
 import numpy as np
 import matplotlib
+import textblob
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from sklearn.cross_validation import train_test_split
@@ -572,3 +573,8 @@ class SocialNetworkMention(AbstractedTesterClass):
     network_created_on = models.DateTimeField(default=get_time)
     symbol = models.CharField(max_length=30, db_index=True)
     text = models.TextField()
+    sentiment_polarity = models.FloatField(default=0.00)
+
+    def set_sentiment(self):
+        polarity = textblob.TextBlob(self.text).sentiment.polarity
+        self.sentiment_polarity = polarity

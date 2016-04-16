@@ -15,3 +15,4 @@ requests==2.7
 python-twitter==2.2
 BeautifulSoup==3.2.1
 praw==3.4.0
+textblob==0.11.1

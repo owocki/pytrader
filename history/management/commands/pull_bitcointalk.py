@@ -57,12 +57,15 @@ class Command(BaseCommand):
             if SocialNetworkMention.objects.filter(network_name='bitcointalk', network_id=message_id).count() == 0:
                 for currency_symbol in settings.SOCIAL_NETWORK_SENTIMENT_CONFIG['bitcointalk']:
                     if currency_symbol.lower() in post_body.lower():
-                        SocialNetworkMention.objects.create(
+                        snm = SocialNetworkMention.objects.create(
                             network_name='bitcointalk',
                             network_id=message_id,
                             network_created_on=network_created_on,
                             text=post_body,
                             symbol=currency_symbol,
                         )
+
+                        snm.set_sentiment()
+                        snm.save()
 
                         print('saving {}'.format(currency_symbol))

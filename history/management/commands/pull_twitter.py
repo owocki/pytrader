@@ -24,7 +24,7 @@ class Command(BaseCommand):
             for tweet in results:
 
                 if SocialNetworkMention.objects.filter(network_name='twitter', network_id=tweet.id).count() == 0:
-                    SocialNetworkMention.objects.create(
+                    snm = SocialNetworkMention.objects.create(
                         network_name='twitter',
                         network_id=tweet.id,
                         network_username=tweet.user.screen_name,
@@ -32,3 +32,5 @@ class Command(BaseCommand):
                         text=tweet.text,
                         symbol=currency_symbol,
                     )
+                    snm.set_sentiment()
+                    snm.save()
