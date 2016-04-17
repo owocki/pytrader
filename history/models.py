@@ -574,7 +574,9 @@ class SocialNetworkMention(AbstractedTesterClass):
     symbol = models.CharField(max_length=30, db_index=True)
     text = models.TextField()
     sentiment_polarity = models.FloatField(default=0.00)
+    sentiment_subjectivity = models.FloatField(default=0.00)
 
     def set_sentiment(self):
-        polarity = textblob.TextBlob(self.text).sentiment.polarity
-        self.sentiment_polarity = polarity
+        sentiment = textblob.TextBlob(self.text).sentiment
+        self.sentiment_polarity = sentiment.polarity
+        self.sentiment_subjectivity = sentiment.subjectivity
