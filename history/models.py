@@ -570,7 +570,7 @@ class SocialNetworkMention(AbstractedTesterClass):
     network_name = models.CharField(max_length=30, db_index=True)
     network_username = models.CharField(max_length=100)
     network_id = models.CharField(default=0, max_length=100, db_index=True)
-    network_created_on = models.DateTimeField(auto_now_add=True)
+    network_created_on = models.DateTimeField()
     symbol = models.CharField(max_length=30, db_index=True)
     text = models.TextField()
     sentiment_polarity = models.FloatField(default=0.00)
