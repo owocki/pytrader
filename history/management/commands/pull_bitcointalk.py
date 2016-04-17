@@ -51,7 +51,9 @@ class Command(BaseCommand):
             parsed_html = BeautifulSoup(response_body)
             post_body = parsed_html.find('div', attrs={'class': 'post'}).text
             message_id = get_message_id(children['guid'])
-            network_created_on = datetime.datetime.strptime(children['pubDate'], "%a, %d %b %Y %X %Z")  # Sat, 16 Apr 2016 18:23:51 GMT
+            # Sat, 16 Apr 2016 18:23:51 GMT
+            network_created_on = datetime.datetime.strptime(children['pubDate'],
+                                                            "%a, %d %b %Y %X %Z")
             if SocialNetworkMention.objects.filter(network_name='bitcointalk', network_id=message_id).count() == 0:
                 for currency_symbol in settings.SOCIAL_NETWORK_SENTIMENT_CONFIG['bitcointalk']:
                     if currency_symbol.lower() in post_body.lower():
