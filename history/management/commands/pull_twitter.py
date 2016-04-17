@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
         for currency_symbol in settings.SOCIAL_NETWORK_SENTIMENT_CONFIG['twitter']:
             print(currency_symbol)
-            results = api.GetSearch(currency_symbol, count=200)
+            results = api.GetSearch("$" + currency_symbol, count=200)
             for tweet in results:
 
                 if SocialNetworkMention.objects.filter(network_name='twitter', network_id=tweet.id).count() == 0:
