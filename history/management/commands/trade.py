@@ -224,6 +224,7 @@ class Command(BaseCommand):
                 predict_confidence = pt.confidence()
                 print_and_log("(t)predicted trainingtime for nn #{} {}: {}s, predicted confidence: {}%".
                               format(i, config['name'], round(predict_runtime, 1), int(predict_confidence)))
+                pt.get_nn(train=settings.MAKE_TRADES)
                 print_and_log("(t)done training")
                 predictors[i] = pt
                 self.confidence[i] = predict_confidence
