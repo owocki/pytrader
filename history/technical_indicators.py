@@ -3,7 +3,6 @@
 
 import numpy as np
 import pandas as pd
-import datetime
 
 
 def moving_average(x, n, type='simple'):
@@ -70,7 +69,7 @@ def moving_average_convergence(x, nslow=26, nfast=12):
     return emaslow, emafast, emafast - emaslow
 
 
-#thanks http://stackoverflow.com/questions/28477222/python-pandas-calculate-ichimoku-chart-components
+# thanks http://stackoverflow.com/questions/28477222/python-pandas-calculate-ichimoku-chart-components
 def ichimoku(price_objs):
     """
     computes the ichimoku cloud for price_objs
