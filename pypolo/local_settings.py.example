@@ -20,3 +20,10 @@ DATABASES = {
 }
 
 DEBUG_APPS = []
+
+# only required for pull_twitter.py
+# get this info @ https://apps.twitter.com/
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+TWITTER_ACCESS_TOKEN_KEY = ''
+TWITTER_ACCESS_TOKEN_SECRET = ''

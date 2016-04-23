@@ -160,6 +160,15 @@ LOG_FILE = '/var/log/django.log'
 
 # Configuration of the number of threads to be used for predictions - Set to CPU cores + 1 if dedicated machine
 NUM_THREADS = 5
+
+# only required for pull_twitter.py
+# get this info @ https://apps.twitter.com/
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+TWITTER_ACCESS_TOKEN_KEY = ''
+TWITTER_ACCESS_TOKEN_SECRET = ''
+
+
 ```
 
 install your requirements
