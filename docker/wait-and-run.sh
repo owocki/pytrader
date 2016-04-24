@@ -12,8 +12,6 @@ done
 >&2 echo "Postgres is up - doing Django magic"
 cd /root/pytrader
 
-# http://stackoverflow.com/questions/23564529/chartit-is-not-a-valid-tag-librarydjango
-sed -i  's/from django.utils import simplejson/import simplejson/' /usr/local/lib/python2.7/site-packages/chartit/templatetags/chartit.py
 ./manage.py syncdb --noinput
 # For some reason I can't make it run from the subdir. I dont know Django too
 # well.
