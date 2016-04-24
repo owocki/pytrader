@@ -1,7 +1,7 @@
 from django.contrib import admin
 from history.models import (
     Price, PredictionTest, Trade, TradeRecommendation, Balance, PerformanceComp,
-    Deposit, ClassifierTest
+    Deposit, ClassifierTest, SocialNetworkMention
 )
 
 
@@ -95,3 +95,11 @@ class ClassifierTestAdmin(admin.ModelAdmin):
                     'percent_correct', 'score', 'prediction_size', view_link]
 
 admin.site.register(ClassifierTest, ClassifierTestAdmin)
+
+
+class SocialNetworkMentionAdmin(admin.ModelAdmin):
+    ordering = ['-id']
+    search_fields = ['symbol', 'network_name', 'network_id']
+    list_display = ['symbol', 'network_name', 'network_id']
+
+admin.site.register(SocialNetworkMention, SocialNetworkMentionAdmin)
