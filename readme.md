@@ -177,7 +177,7 @@ install your requirements
 pip install -r requirements.txt
 ```
 
-set up your database.. here  are some sample DB configs (pleace in `pypolo/local_settings.py`):
+set up your database.. here  are some sample DB configs (place in `pypolo/local_settings.py`):
 
 
 ```
