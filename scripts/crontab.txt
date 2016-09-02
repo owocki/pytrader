@@ -8,7 +8,7 @@
 1 */6 * * * cd pytrader; ./manage.py pull_deposits
 */5 * * * * cd pytrader; ./manage.py pull_balance
 ########### social apis
-*/3 * * * * cd pytrader; ./manage.py pull_twitter
+*/10 * * * * cd pytrader; ./manage.py pull_twitter
 */5 * * * * cd pytrader; ./manage.py pull_reddit
 * * * * * cd pytrader; ./manage.py pull_bitcointalk
 ########### trader
