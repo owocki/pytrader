@@ -4,8 +4,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MAKE_TRADES = False
 
-API_KEY = os.environ['POLONIEX_API_KEY']
-API_SECRET = os.environ['POLONIEX_API_SECRET']
+API_KEY = os.environ['M0XBQ6FT-U5GABNTN-HA0WD6PY-SYLQ3Q1G']
+API_SECRET = os.environ['6b575d92b007d5a4ac30f9ca7647df4ada124cd96953cd689ac2e8b1345d14d0ff1815b813989b600bf63c248bc5b99ad6edb93e57997ecd75ed2d60febb29cb']
 
 DATABASES = {
     'default': {
