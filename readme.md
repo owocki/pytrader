@@ -32,9 +32,11 @@ pytrader uses _pybrain_ and _sklearn_ to make trade ( buy/sell/hold decisions ),
 
 Supported classifiers are as follows:
 
-```["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
+```
+["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
                  "Random Forest", "AdaBoost", "Naive Bayes", "Linear Discriminant Analysis",
-                 "Quadratic Discriminant Analysis"]```
+                 "Quadratic Discriminant Analysis"]
+```
 
 Here's an example of a *Decision Tree* classifier being used to make a buy (blue), sell (red), or hold(green) decision on the [BTC_ETH pair](https://www.poloniex.com/exchange#btc_eth).
 
@@ -56,7 +58,7 @@ In addition to using sklearn Classifiers, Pybrain Supervised Learning tools were
 
 ### Database model
 
-<img src='http://bits.owocki.com/373h1z2l2V3x/download.png' />
+<img src='https://d3vv6lp55qjaqc.cloudfront.net/items/0Q2O3l2J362K1P0Y3F1V/download.png' />
 
 ## Administration & Optimization
 
@@ -64,13 +66,13 @@ Administration of this tool is primarily done through the django admin.
 
 There's a series of graphs in the admin that show trades, and portfolio profitability over time.
 
-<img src='http://bits.owocki.com/3q2M3u0i3L2g/Image%202016-03-26%20at%209.22.23%20AM.png' />
+<img src='https://camo.githubusercontent.com/8635b3907f6cdff9862bf6212d79297bdceeae69/687474703a2f2f626974732e6f776f636b692e636f6d2f3371324d33753069334c32672f496d616765253230323031362d30332d32362532306174253230392e32322e3233253230414d2e706e67' />
 
-<img src='http://bits.owocki.com/2a1M292b1E3X/Image%202016-03-26%20at%209.21.16%20AM.png' />
+<img src='https://d3vv6lp55qjaqc.cloudfront.net/items/2d3T2m0Z423T3u0D0J1h/Image%202016-03-26%20at%209.21.16%20AM.png' />
 
 ... and allow the graphical debugging of trade decisions ... 
 
-<img src='http://bits.owocki.com/0N2z260s0e3p/Image%202016-03-26%20at%209.30.04%20AM.png' />
+<img src='https://d3vv6lp55qjaqc.cloudfront.net/items/1R452H3T35003e2l0r18/Image%202016-03-26%20at%209.30.04%20AM.png?' />
 
 ... and allow the tuning of `PredictionTests`  and `ClassifierTests`  ...
 
@@ -78,7 +80,7 @@ There's a series of graphs in the admin that show trades, and portfolio profitab
 
 by each of the native pybrain (Prediction Test) and sklearn (ClassiferTests) parameters ..
 
-<img src='http://bits.owocki.com/3D3k441p441Q/Image%202016-03-26%20at%209.23.37%20AM.png' />
+<img src='https://d3vv6lp55qjaqc.cloudfront.net/items/2b2W2y1Q1U3v2J0Z0o1p/Image%202016-03-26%20at%209.23.37%20AM.png' />
 
 Once a NN or classifier is found that is better than what is being used, *trade.py* is updated with the most profitable configurations.
 
