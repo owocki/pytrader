@@ -32,9 +32,11 @@ pytrader uses _pybrain_ and _sklearn_ to make trade ( buy/sell/hold decisions ),
 
 Supported classifiers are as follows:
 
-```["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
+```
+["Nearest Neighbors", "Linear SVM", "RBF SVM", "Decision Tree",
                  "Random Forest", "AdaBoost", "Naive Bayes", "Linear Discriminant Analysis",
-                 "Quadratic Discriminant Analysis"]```
+                 "Quadratic Discriminant Analysis"]
+```
 
 Here's an example of a *Decision Tree* classifier being used to make a buy (blue), sell (red), or hold(green) decision on the [BTC_ETH pair](https://www.poloniex.com/exchange#btc_eth).
 
