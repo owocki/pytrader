@@ -4,6 +4,7 @@ import datetime
 from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
+from pybrain.tools.validation import CrossValidator
 from django.db import models
 from history.tools import create_sample_row, get_fee_amount
 from django.utils.timezone import localtime
@@ -464,6 +465,8 @@ class PredictionTest(AbstractedTesterClass):
     recurrent = models.BooleanField(default=False)
     recurrent_chart = models.IntegerField(default=-1)
     profitloss = models.FloatField(default=0)
+    training_error = models.FloatField(default=0,null=True)  
+    evaluation_error = models.FloatField(default=0,null=True)  
     profitloss_int = models.IntegerField(default=0)
     timedelta_back_in_granularity_increments = models.IntegerField(default=0)
     output = models.TextField()
@@ -541,7 +544,10 @@ class PredictionTest(AbstractedTesterClass):
 
         if train:
             for i in range(self.epochs):
-                TRAINER.train()
+                self.training_error = TRAINER.train()
+
+        cv=CrossValidator(trainer=TRAINER, dataset=DS, n_folds=5) 
+        self.evaluation_error = CrossValidator.validate(cv) 
 
         self.nn = FNN
         return FNN
