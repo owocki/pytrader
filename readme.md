@@ -1,4 +1,4 @@
-UPDATE 7/24/2017 -- Got ML talent?  Got capital to invest?  Email ksowocki [at] gmail [dot] com to explore collaborations.
+UPDATE 7/14/2017 -- Got ML talent?  Got capital to invest?  Email ksowocki [at] gmail [dot] com to explore collaborations.
 
 # pytrader
 [![Build Status](https://travis-ci.org/owocki/pytrader.svg?branch=master)](https://travis-ci.org/owocki/pytrader)
