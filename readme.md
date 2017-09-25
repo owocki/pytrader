@@ -1,4 +1,6 @@
-UPDATE 7/14/2017 -- Got ML talent?  Got capital to invest?  Email ksowocki [at] gmail [dot] com to explore collaborations.
+<a href="https://gitcoin.co/explorer/?q=pytrader" title=”Push Open Source Forward”>
+    <img src='https://gitcoin.co/static/v2/images/promo_buttons/slice_01.png' alt=’Browse Gitcoin Bounties’/>
+</a>
 
 # pytrader
 [![Build Status](https://travis-ci.org/owocki/pytrader.svg?branch=master)](https://travis-ci.org/owocki/pytrader)
