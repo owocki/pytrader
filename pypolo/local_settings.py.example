@@ -1,0 +1,29 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+MAKE_TRADES = False
+
+API_KEY = os.environ['POLONIEX_API_KEY']
+API_SECRET = os.environ['POLONIEX_API_SECRET']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER':  os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': 'db',
+        'PORT': '', 
+        'ATOMIC_REQUESTS': True,
+    },
+}
+
+DEBUG_APPS = []
+
+# only required for pull_twitter.py
+# get this info @ https://apps.twitter.com/
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+TWITTER_ACCESS_TOKEN_KEY = ''
+TWITTER_ACCESS_TOKEN_SECRET = ''
