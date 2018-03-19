@@ -1,5 +1,5 @@
-<a href="https://github.com/gitcoinco/gitcoinco" title=”Push Open Source Forward”>
-    <img src='https://gitcoin.co/static/v2/images/promo_buttons/slice_02.png' alt=’Browse Gitcoin Bounties’ width=267px height=52px  style='width: 267px;height: 52px;'/>
+<a href="https://gitcoin.co/explorer?q=">
+    <img src="https://gitcoin.co/funding/embed?repo=https://github.com/owocki/pytrader">
 </a>
 
 # pytrader
