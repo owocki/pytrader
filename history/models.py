@@ -1,13 +1,12 @@
 from __future__ import unicode_literals
-from django.utils import timezone
 import datetime
 from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 from django.db import models
 from history.tools import create_sample_row, get_fee_amount
-from django.utils.timezone import localtime
 from django.conf import settings
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 import cgi
 import time
@@ -34,12 +33,12 @@ np.random.seed(0)
 
 
 def get_time():
-    return localtime(timezone.now())
+    return timezone.localtime(timezone.now())
 
 
 class TimeStampedModel(models.Model):
-    created_on = models.DateTimeField(null=False, default=get_time, db_index=True)
-    modified_on = models.DateTimeField(null=False, default=get_time)
+    created_on = models.DateTimeField(null=False, auto_now_add=True, db_index=True)
+    modified_on = models.DateTimeField(null=False, auto_now=True)
 
     def get_readonly_fields(self, request, obj=None):
         return [f.name for f in self._meta.get_fields()]
@@ -49,10 +48,6 @@ class TimeStampedModel(models.Model):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-    def save(self, *args, **kwargs):
-        self.modified_on = get_time()
-        return super(TimeStampedModel, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -63,8 +58,8 @@ class TimeStampedModel(models.Model):
 
 
 class AbstractedTesterClass(models.Model):
-    created_on = models.DateTimeField(null=False, default=get_time)
-    modified_on = models.DateTimeField(null=False, default=get_time)
+    created_on = models.DateTimeField(null=False, auto_now_add=True)
+    modified_on = models.DateTimeField(null=False, auto_now=True)
 
     def get_readonly_fields(self, request, obj=None):
         return [f.name for f in self._meta.get_fields()]
@@ -74,10 +69,6 @@ class AbstractedTesterClass(models.Model):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-    def save(self, *args, **kwargs):
-        self.modified_on = get_time()
-        return super(AbstractedTesterClass, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -132,7 +123,6 @@ class Deposit(TimeStampedModel):
     type = models.CharField(max_length=10)
     txid = models.CharField(max_length=500, default='')
     status = models.CharField(max_length=100, default='none')
-    created_on_str = models.CharField(max_length=50, default='')
 
 
 class Trade(TimeStampedModel):
@@ -144,7 +134,6 @@ class Trade(TimeStampedModel):
     orderNumber = models.CharField(max_length=50, default='')
     status = models.CharField(max_length=10, default='none')
     net_amount = models.FloatField(null=True)
-    created_on_str = models.CharField(max_length=50, default='')
     fee_amount = models.FloatField(null=True)
     btc_amount = models.FloatField(null=True)
     usd_amount = models.FloatField(null=True)
@@ -193,7 +182,6 @@ class Price(TimeStampedModel):
     volume = models.FloatField(null=True)
     lowestask = models.FloatField(null=True)
     highestbid = models.FloatField(null=True)
-    created_on_str = models.CharField(max_length=50, default='')
 
 
 class Balance(TimeStampedModel):
@@ -205,7 +193,6 @@ class Balance(TimeStampedModel):
     exchange_to_usd_rate = models.FloatField(null=True)
     deposited_amount_usd = models.FloatField(default=0.00)
     deposited_amount_btc = models.FloatField(default=0.00)
-    date_str = models.CharField(max_length=20, default='0', db_index=True)
 
 
 class PerformanceComp(TimeStampedModel):
@@ -213,7 +200,6 @@ class PerformanceComp(TimeStampedModel):
     nn_rec = models.FloatField()
     actual_movement = models.FloatField()
     delta = models.FloatField()
-    created_on_str = models.CharField(max_length=30)
     directionally_same = models.BooleanField(default=False)
     directionally_same_int = models.IntegerField(default=0)
     weighted_avg_nn_rec = models.FloatField(default=0)
@@ -234,7 +220,6 @@ class TradeRecommendation(TimeStampedModel):
     made_on = models.TextField(max_length=30)
     recommendation = models.CharField(max_length=30)
     confidence = models.FloatField()
-    created_on_str = models.CharField(max_length=30, default='')
     net_amount = models.FloatField(default=0)
     trade = models.ForeignKey('Trade', null=True, db_index=True)
 

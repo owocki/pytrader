@@ -25,5 +25,4 @@ class Command(BaseCommand):
             p.lowestask = price[ticker]['lowestAsk']
             p.highestbid = price[ticker]['highestBid']
             p.symbol = ticker
-            p.created_on_str = str(p.created_on)
             p.save()

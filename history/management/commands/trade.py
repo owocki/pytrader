@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from history.models import Price, PredictionTest, Trade, TradeRecommendation, Balance, get_time, ClassifierTest
+from history.models import Price, PredictionTest, Trade, TradeRecommendation, Balance, ClassifierTest
 from history.tools import get_utc_unixtime, print_and_log
 import datetime
 import time
@@ -191,8 +191,7 @@ class Command(BaseCommand):
                                  clf=clf,
                                  confidence=confidence,
                                  recommendation=recommend,
-                                 net_amount=-1 if recommend == 'SELL' else (1 if recommend == 'BUY' else 0),
-                                 created_on_str=str(get_time().strftime('%Y-%m-%d %H:%M')))
+                                 net_amount=-1 if recommend == 'SELL' else (1 if recommend == 'BUY' else 0))
         tr.save()
         self.trs[nn_index] = tr
         return recommend

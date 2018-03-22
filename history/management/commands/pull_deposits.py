@@ -35,6 +35,4 @@ class Command(BaseCommand):
             d.status = status
             d.created_on = created_on
             d.modified_on = created_on
-            d.created_on_str = datetime.datetime.strftime(
-                created_on - datetime.timedelta(hours=int(7)), '%Y-%m-%d %H:%M')
             d.save()

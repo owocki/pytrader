@@ -1,6 +1,7 @@
+import pytz
 from django.contrib.admin.views.decorators import staff_member_required
 from history.models import (
-    PredictionTest, Price, Trade, Balance, TradeRecommendation, get_time, PerformanceComp,
+    PredictionTest, Price, Trade, Balance, TradeRecommendation, PerformanceComp,
     ClassifierTest)
 from django.shortcuts import render_to_response
 from django.utils import timezone
@@ -8,7 +9,7 @@ import datetime
 from django.db.models import Avg, Max, Min, Sum, Count
 # Create your views here.
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
-from history.tools import median_value, get_cost_basis
+from history.tools import median_value, get_cost_basis, utc_to_tz_str
 from django.conf import settings
 
 
@@ -113,7 +114,7 @@ def get_balance_breakdown_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': bs.filter(created_on__gte=start_time).order_by('-created_on').all(),
-                'categories': 'date_str',
+                'categories': 'created_on',
                 'legend_by': 'symbol'},
                 'terms': {
                     'total_value': Sum(denom)}}])
@@ -147,7 +148,7 @@ def get_balance_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': bs.filter(created_on__gte=start_time).order_by('-created_on').all(),
-                'categories': 'date_str'
+                'categories': 'created_on'
             },
                 'terms': {
                     'total_value': Sum(denom), 'total_invested': Sum(dep_amount_fieldname),
@@ -176,17 +177,17 @@ def get_balance_chart(bs, denom, symbol, start_time):
 def get_trade_chart(bs, denom, symbol, start_time):
 
     if settings.MAKE_TRADES:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).filter(status__in=['fill', 'open', 'error']).order_by('id')
     else:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).order_by('id')
 
     ds = PivotDataPool(
         series=[
             {'options': {
                 'source': trades,
-                'categories': 'created_on_str',
+                'categories': 'created_on',
                 'legend_by': 'status'},
                 'terms': {
                     'total_value': Sum('net_amount')}}])
@@ -216,17 +217,17 @@ def get_trade_chart(bs, denom, symbol, start_time):
 def get_trade_profitability_chart(bs, denom, symbol, start_time):
 
     if settings.MAKE_TRADES:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).filter(status__in=['fill', 'open', 'error']).order_by('id')
     else:
-        trades = Trade.objects.exclude(created_on_str="").filter(
+        trades = Trade.objects.filter(
             symbol=symbol, created_on__gte=start_time).order_by('id')
 
     ds = PivotDataPool(
         series=[
             {'options': {
                 'source': trades,
-                'categories': 'created_on_str',
+                'categories': 'created_on',
                 'legend_by': 'status'},
                 'terms': {
                     'total_value': Sum('btc_net_profit')}}])
@@ -266,8 +267,15 @@ def get_performance_comps_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': pcs},
-                'terms': ['created_on_str', 'delta', 'actual_movement', 'nn_rec',
-                          'pct_buy', 'pct_sell', 'weighted_avg_nn_rec']}
+                'terms': [
+                    ('created_on', utc_to_tz_str),
+                    'delta',
+                    'actual_movement',
+                    'nn_rec',
+                    'pct_buy',
+                    'pct_sell',
+                    'weighted_avg_nn_rec'
+                ]}
         ])
 
     cht = Chart(
@@ -277,8 +285,8 @@ def get_performance_comps_chart(bs, denom, symbol, start_time):
                 'type': 'line',
                 'stacking': False},
                 'terms': {
-                    'created_on_str': ['delta', 'actual_movement', 'nn_rec',
-                                       'pct_buy', 'pct_sell', 'weighted_avg_nn_rec']
+                    'created_on': ['delta', 'actual_movement', 'nn_rec',
+                                   'pct_buy', 'pct_sell', 'weighted_avg_nn_rec']
                 }}],
         chart_options={
             'title': {
@@ -303,7 +311,7 @@ def get_directional_change_chart(bs, denom, symbol, start_time):
         series=[
             {'options': {
                 'source': pcs,
-                'categories': 'created_on_str'
+                'categories': 'created_on',
             },
                 'terms': {
                     'total_value': Sum('directionally_same_int')}}])
@@ -332,8 +340,8 @@ def get_ticker_price(bs, denom, symbol, start_time):
 
     p = Price.objects.none()
     for minute in [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]:
-        p = p | Price.objects.exclude(created_on_str="").filter(symbol=symbol, created_on__gte=start_time,
-                                                                created_on__minute=minute)
+        p = p | Price.objects.filter(symbol=symbol, created_on__gte=start_time,
+                                     created_on__minute=minute)
     p = p.order_by('created_on')
 
     ds = DataPool(
@@ -341,7 +349,7 @@ def get_ticker_price(bs, denom, symbol, start_time):
             {'options': {
                 'source': p},
                 'terms': [
-                    'created_on_str',
+                    ('created_on', utc_to_tz_str),
                     'price']}
         ])
 
@@ -352,13 +360,14 @@ def get_ticker_price(bs, denom, symbol, start_time):
                 'type': 'line',
                 'stacking': False},
                 'terms': {
-                    'created_on_str': [
+                    'created_on': [
                         'price']
                 }}],
         chart_options={
             'title': {
                 'text': 'Price Over Time {}'.format(symbol)},
             'xAxis': {
+                'type': 'datetime',
                 'title': {
                     'text': 'Time'}}})
     return cht
@@ -383,8 +392,9 @@ def nn_chart_view(request):
     trainer_last_seen = None
     try:
         last_pt = PredictionTest.objects.filter(type='mock').order_by('-created_on').first()
-        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
-        trainer_last_seen = (last_pt.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        is_trainer_running = last_pt.created_on > fifteen_ago
+        trainer_last_seen = timezone.localtime(last_pt.created_on).strftime('%a %H:%M')
     except Exception:
         is_trainer_running = False
 
@@ -402,11 +412,11 @@ def nn_chart_view(request):
         cht = get_line_chart(pts, symbol, parameter)
         charts.append(cht)
         options = []
-        chartnames.append("container"+str(i))
+        chartnames.append("container" + str(i))
         metas.append({
             'name': parameter,
             'container_class': 'show',
-            'class': "container"+str(i),
+            'class': "container" + str(i),
             'options': options,
         })
 
@@ -473,8 +483,9 @@ def c_chart_view(request):
     trainer_last_seen = None
     try:
         last_pt = ClassifierTest.objects.filter(type='mock').order_by('-created_on').first()
-        is_trainer_running = last_pt.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
-        trainer_last_seen = (last_pt.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        is_trainer_running = last_pt.created_on > fifteen_ago
+        trainer_last_seen = timezone.localtime(last_pt.created_on).strftime('%a %H:%M')
     except Exception:
         is_trainer_running = False
 
@@ -564,7 +575,8 @@ def profit_view(request):
     # get data
     data = {}
     for t in Trade.objects.filter(symbol=symbol, status='fill').order_by('-created_on').all():
-        date = datetime.datetime.strftime(t.created_on-datetime.timedelta(hours=7), '%Y-%m-%d')
+        mst_dt = timezone.localtime(t.created_on, pytz.timezone('MST'))
+        date = datetime.datetime.strftime(mst_dt, '%Y-%m-%d')
         if date not in data.keys():
             data[date] = {'buyvol': [], 'sellvol': [], 'buy': [], 'sell': [], 'bal': 0.00}
         data[date][t.type].append(t.price)
@@ -663,8 +675,9 @@ def optimize_view(request):
 
     last_trade = TradeRecommendation.objects.order_by('-created_on').first()
     if last_trade:
-        trader_last_seen = (last_trade.created_on - datetime.timedelta(hours=int(7))).strftime('%a %H:%M')
-        is_trader_running = last_trade.created_on > (get_time() - datetime.timedelta(minutes=int(15)))
+        fifteen_ago = timezone.now() - datetime.timedelta(minutes=15)
+        trader_last_seen = timezone.localtime(last_trade.created_on).strftime('%a %H:%M')
+        is_trader_running = last_trade.created_on > fifteen_ago
     else:
         trader_last_seen = None
         is_trader_running = False
