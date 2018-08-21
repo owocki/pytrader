@@ -5,6 +5,7 @@ from history.models import (
 from django.shortcuts import render_to_response
 from django.utils import timezone
 import datetime
+from dateutil import tz
 from django.db.models import Avg, Max, Min, Sum, Count
 # Create your views here.
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
@@ -564,7 +565,10 @@ def profit_view(request):
     # get data
     data = {}
     for t in Trade.objects.filter(symbol=symbol, status='fill').order_by('-created_on').all():
-        date = datetime.datetime.strftime(t.created_on-datetime.timedelta(hours=7), '%Y-%m-%d')
+        #date = datetime.datetime.strftime(t.created_on-datetime.timedelta(hours=7), '%Y-%m-%d')
+        date_utc = t.created_on.replace(tzinfo=tz.gettz('UTC'))
+        date_mst = date_utc.astimezone(tz.gettz('MST'))
+        date = datetime.datetime.strftime(date_mst, '%Y-%m-%d')
         if date not in data.keys():
             data[date] = {'buyvol': [], 'sellvol': [], 'buy': [], 'sell': [], 'bal': 0.00}
         data[date][t.type].append(t.price)
